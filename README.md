@@ -1,7 +1,7 @@
 # TeamA
 
 ## Members
-Jacob Bryant - Product Manager
+Jacob Bryant - Project Manager
 
 Benjamin Miller, Drew Marecek, Cade Carr - Developer
 

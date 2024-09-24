@@ -7,6 +7,9 @@ Benjamin Miller, Drew Marecek, Cade Carr - Developer
 
 Dominic Huntington - Designer
 
+## Mission Statement
+Software that doesn't suck
+
 ## Problem Statements
 
 1.

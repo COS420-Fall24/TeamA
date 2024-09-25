@@ -12,6 +12,8 @@ Software that doesn't suck
 
 ## Problem Statements
 
+https://docs.google.com/document/d/1gQu_iFSQpnMHrKEQ7MM4JueKd3BD1DBhxUNtEbfEuJ0/edit?usp=sharing
+
 1.
 People struggle to keep track of their budgeting and financing. For example, many college students spend tons of money on unnecessary expenses such as DoorDash when they need to save money for rent and tuition causing them to be late on payments or go further into debt. Budgeting methods such as spreadsheets or other apps can be used to keep track of finances. However, spreadsheets are not organized and other budgeting apps are paid products. How do we design a budgeting app that is free and easy to use?
 

@@ -19,3 +19,9 @@ People struggle to keep track of their budgeting and financing. For example, man
 
 2.
 Picking out outfits in the morning is time-consuming and stressful. For example, when running late class it is hard to find a good outfit for the weather and is stylish. This can cause you to be late to class and or frostbite. Current outfit planners exist and can save you time and effort in getting dressed. However, they are all subscription-based, don't account for weather, and potentially share your information. How do we create an outfit planner that's free to use and automatically accounts for the weather?
+
+## Agenda
+
+Thurdsays meeting go over current tasks and bring up any concerns or problems.
+
+Tuedsays meetings bring forward completed issues and polish anything ready for turn in.

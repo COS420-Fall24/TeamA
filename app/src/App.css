@@ -24,7 +24,18 @@
   color: white;
 }
 
+.App-footer{
+  background-color: #20232a;
+  color: white;
+  padding: 20px;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+}
+
 .App-link {
+  text-decoration: underline;
   color: #61dafb;
 }
 

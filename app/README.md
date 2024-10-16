@@ -26,14 +26,14 @@ Before you begin, ensure you have the following installed:
    npm install
    ```
 ## Building the app
-To build the app, you can execute the following command:
+1. To build the app, you can execute the following command:
 ```bash
 npm run build
 ```
 This will compile the React interface into a single webpack bundle that can be included as a JavaScript module in the browser.
 
 ## Running the App
-To begin development on the application, you should run the following commands in order:
+1. To begin development on the application, you should run the following commands in order:
 
 ```bash
 npm run watch
@@ -42,4 +42,4 @@ npm run dev
 
 This will watch for changes to the React script to restart the building process and start the server using Nodemon, which automatically restarts the server when file changes are detected. The app will be accessible at http://localhost:3000.
 
-You will also need a JSON file called "firebaseCredentials.json" containing the Firebase account credentials. Reach out to Jake over Discord for a copy of this.
+2. You will need to rename the `firebaseCredentials.example.json` file to `firebaseCredentials.json` and fill it with the proper Firebase details. You can reach out to Jake over Discord for a copy of the private credentials.

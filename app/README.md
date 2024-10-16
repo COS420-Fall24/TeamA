@@ -1,30 +1,45 @@
-# Getting Started with Create React App
+# Job Searching App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+This is a website made in React that allows users to discover job postings, request mentors, and connect with potential employers
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Building the App](#building-the-app)
+- [Running the App](#running-the-app)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Prerequisites
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Before you begin, ensure you have the following installed:
 
-### `npm test`
+- [Node.js](https://nodejs.org/) (version 14 or later)
+- [npm](https://www.npmjs.com/) (comes with Node.js)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Installation
 
-### `npm run build`
+1. Install the dependencies:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+   ```bash
+   npm install
+   ```
+## Building the app
+To build the app, you can execute the following command:
+```bash
+npm run build
+```
+This will compile the React interface into a single webpack bundle that can be included as a JavaScript module in the browser.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Running the App
+To begin development on the application, you should run the following commands in order:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm run watch
+npm run dev
+```
+
+This will watch for changes to the React script to restart the building process and start the server using Nodemon, which automatically restarts the server when file changes are detected. The app will be accessible at http://localhost:3000.
+
+You will also need a JSON file called "firebaseCredentials.json" containing the Firebase account credentials. Reach out to Jake over Discord for a copy of this.

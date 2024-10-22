@@ -4,28 +4,31 @@ import Register from '../register/Register';
 import './App.css';
 
 function Home() {
-  return <h2>Welcome to the site</h2>;
+  return <h2>EmpowerMaine</h2>;
 }
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/register">Register</Link>
-            </li>
-          </ul>
-        </nav>
+        <header className="App-header">
+          <h1>EmpowerMaine</h1>
+          <nav className="nav">
+            <div>
+              <Link to="/" className="nav-link">Home</Link>
+              <Link to="/register" className="nav-link">Register</Link>
+            </div>
+          </nav>
+        </header>
 
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
         </Routes>
+
+        <footer className="App-footer">
+          <p>© 2024 EmpowerMaine. All rights reserved.</p>
+        </footer>
       </div>
     </Router>
   );

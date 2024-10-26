@@ -1,17 +1,13 @@
-const admin = require('../firebaseConfig');
+const { createUser } = require('../models/user');
 
 async function register(req, res) {
     const { email, password } = req.body;
     
     try {
-        const userRecord = await admin.auth().createUser({
-            email: email,
-            password: password
-        });
+        const userRecord = await createUser(email, password)
 
         res.status(201).json({ message: 'User registered successfully', uid: userRecord.uid });
     } catch (error) {
-        console.error('Error creating new user:', error);
         switch (error.code) {
             case 'auth/email-already-exists':
                 res.status(400).json({ error: 'The email address is already in use by another account.' });

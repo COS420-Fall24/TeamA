@@ -9,7 +9,16 @@ async function createUser(email, password) {
     return userRecord
 }
 
-async function checkLoginDetails(username, password) {
+async function checkLoginDetails(email, password) {
+    try{
+        const userCredential = await firebase.auth().signInWithEmailAndPasswrod(email,password)
+        const  user = userCredential.user
+        return{success:true, uid:user.uid, email: user.email}
+
+    }
+    catch(error){
+        return{success:false, message: error.message};
+    }
 
 }
 

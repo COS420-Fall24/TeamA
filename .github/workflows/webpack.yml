@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: CI/CD Pipeline
 
 on:
   push:
@@ -20,6 +20,20 @@ jobs:
 
       - name: Install dependencies
         run: npm install
+        working-directory: ${{ github.workspace }}working-directory: ${{ github.workspace }}/app
+      - name: Build application
+        run: npm run build
+        working-directory: ${{ github.workspace }}working-directory: ${{ github.workspace }}/app
 
       - name: Run tests
-        run: npm start
+        run: npm test
+        working-directory: ${{ github.workspace }}working-directory: ${{ github.workspace }}/app
+
+      - name: Start server (background)
+        run: npm start &
+        working-directory: ${{ github.workspace }}working-directory: ${{ github.workspace }}/app
+
+      - name: Wait for server to be ready
+        run: |
+          sleep 5 # Wait a few seconds for server to start
+          curl -I http://localhost:3000 # Check if server is responding

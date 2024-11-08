@@ -9,7 +9,7 @@ describe('Register Component', () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
         ok: false,
-        json: () => Promise.resolve({ error: 'Registration failed. Please try again.' }),
+        json: () => Promise.resolve({ error: 'This will fail.' }),
       })
     );
 

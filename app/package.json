@@ -26,11 +26,11 @@
       "<rootDir>/setupTests.js"
     ],
     "moduleNameMapper": {
-    "\\.css$": "identity-obj-proxy"  // This mocks the CSS imports
+      "\\.css$": "identity-obj-proxy",
+      "^.+\\.css$": "jest-transform-stub"
     },
     "transform": {
-      "^.+\\.js$": "babel-jest",  // Ensures JS and JSX files are properly transformed by Babel
-      "^.+\\.css$": "jest-transform-stub"  // This will ignore CSS during transformation
+      "^.+\\.js$": "babel-jest"
     }
   },
   "eslintConfig": {

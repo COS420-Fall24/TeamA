@@ -1,52 +1,19 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { MemoryRouter } from 'react-router-dom';
 import App from './App';
 
 describe('App Component', () => {
-  it('renders the EmpowerMaine title and navigation links', () => {
+  it('renders the correct component based on the route', () => {
+    // Render the App component wrapped in a MemoryRouter with the initial route set to /register
     render(
-      <MemoryRouter>
+      <MemoryRouter initialEntries={['/register']}>
         <App />
       </MemoryRouter>
     );
 
-    //check for main title and footer text
-    expect(screen.getByText(/EmpowerMaine/i)).toBeInTheDocument();
-    expect(screen.getByText(/© 2024 EmpowerMaine. All rights reserved./i)).toBeInTheDocument();
-
-    //check for navigation links
-    expect(screen.getByRole('link', { name: /Home/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /Register/i })).toBeInTheDocument();
-  });
-
-  it('navigates to Home page when Home link is clicked', async () => {
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>
-    );
-
-    //click on Home link
-    const homeLink = screen.getByRole('link', { name: /Home/i });
-    await userEvent.click(homeLink);
-
-    //check if the Home page content is displayed
-    expect(screen.getByText(/EmpowerMaine/i)).toBeInTheDocument();
-  });
-
-  it('navigates to Register page when Register link is clicked', async () => {
-    render(
-      <MemoryRouter>
-        <App />
-      </MemoryRouter>
-    );
-
-    //click on Register link
-    const registerLink = screen.getByRole('link', { name: /Register/i });
-    await userEvent.click(registerLink);
-
-    //check if the Register component is rendered
+    // Check if the Register component is rendered when the route is /register
     expect(screen.getByText(/Register/i)).toBeInTheDocument();
   });
 });

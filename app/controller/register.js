@@ -18,7 +18,7 @@ async function register(req, res) {
             case 'auth/weak-password':
                 res.status(400).json({ error: 'The password is too weak.' });
                 break;
-            default:
+
                 res.status(500).json({ error: 'An error occurred during registration.' });
         }
     }

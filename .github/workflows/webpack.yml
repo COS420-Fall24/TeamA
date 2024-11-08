@@ -1,31 +1,40 @@
-name: NodeJS with Webpack
+name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ main ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18.x, 20.x, 22.x]
-
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: '16'
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm install
-        working-directory: TeamA/app
+        working-directory: ${{ github.workspace }}/TeamA/app
 
-      - name: Build with Webpack
-        run: npx webpack
-        working-directory: TeamA/app
+      - name: Build application
+        run: npm run build
+        working-directory: ${{ github.workspace }}/TeamA/app
+
+      - name: Run tests
+        run: npm test
+        working-directory: ${{ github.workspace }}/TeamA/app
+
+      - name: Start server (background)
+        run: npm start &
+        working-directory: ${{ github.workspace }}/TeamA/app
+
+      - name: Wait for server to be ready
+        run: |
+          sleep 5 # Wait a few seconds for server to start
+          curl -I http://localhost:3000 # Check if server is responding

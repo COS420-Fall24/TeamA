@@ -11,7 +11,7 @@ async function createUser(email, password) {
 
 async function checkLoginDetails(email, password) {
     try{
-        const userCredential = await firebase.auth().signInWithEmailAndPasswrod(email,password)
+        const userCredential = await firebase.auth().signInWithEmailAndPassword(email,password)
         const  user = userCredential.user
         return{success:true, uid:user.uid, email: user.email}
 

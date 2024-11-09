@@ -28,7 +28,6 @@ function Register() {
         setMessage(data.error || 'Registration failed. Please try again.');
       }
     } catch (error) {
-      console.error('Error:', error);
       setMessage('An error occurred. Please try again later.');
     }
   };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import Register from '../register/Register';
+import Login from '../login/Login';
 import './App.css';
 
 function Home() {
@@ -17,6 +18,7 @@ function App() {
             <div>
               <Link to="/" className="nav-link">Home</Link>
               <Link to="/register" className="nav-link">Register</Link>
+              <Link to="/login" className="nav-link">Login</Link>
             </div>
           </nav>
         </header>
@@ -24,6 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
 
         <footer className="App-footer">

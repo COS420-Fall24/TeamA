@@ -1,20 +1,23 @@
 const admin = require('../firebaseConfig');
 
-
 async function createUser(email, password) {
-    const userRecord = admin.auth().createUser({
+    const userRecord = await admin.auth().createUser({
         email: email,
         password: password
     });
-    return userRecord
+    return userRecord;
 }
 
-async function checkLoginDetails(email, password) {
-    const userCredential = await admin.auth().signInWithEmailAndPasswrod(email,password)
-    const user = userCredential.user
-    return user
+async function verifyToken(idToken) {
+    try {
+        const decodedToken = await admin.auth().verifyIdToken(idToken);
+        return decodedToken;
+    } catch (error) {
+        throw new Error('Invalid token');
+    }
 }
 
 module.exports = {
-    createUser, checkLoginDetails
-}
+    createUser,
+    verifyToken
+};

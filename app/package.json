@@ -4,14 +4,12 @@
   "private": true,
   "proxy": "http://localhost:3000",
   "dependencies": {
-    "cors": "^2.8.5",
     "express": "^4.21.1",
     "firebase": "^10.14.1",
     "firebase-admin": "^12.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.27.0",
-    "web-vitals": "^3.3.1"
+    "react-router-dom": "^6.27.0"
   },
   "scripts": {
     "start": "node server.js",
@@ -20,55 +18,32 @@
     "build": "webpack --mode production",
     "watch": "webpack --watch --mode development"
   },
-  "jest": {
-    "testEnvironment": "jsdom",
-    "setupFilesAfterEnv": [
-      "<rootDir>/setupTests.js"
-    ]
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "devDependencies": {
     "@babel/core": "^7.26.0",
     "@babel/preset-env": "^7.26.0",
     "@babel/preset-react": "^7.25.9",
-    "@babel/preset-typescript": "^7.26.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
-    "@testing-library/user-event": "^14.5.2",
-    "@types/jest": "^29.5.14",
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
     "babel-jest": "^29.7.0",
     "babel-loader": "^9.2.1",
     "css-loader": "^6.10.0",
-    "eslint": "^8.57.1",
-    "eslint-plugin-react": "^7.37.1",
-    "eslint-plugin-react-hooks": "^5.0.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "nodemon": "^3.1.7",
     "style-loader": "^3.3.4",
     "supertest": "^7.0.0",
-    "typescript": "^5.6.3",
     "webpack": "^5.95.0",
-    "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.1.0"
+    "webpack-cli": "^5.1.4"
+  },
+  "jest": {
+    "testEnvironment": "jsdom",
+    "setupFilesAfterEnv": [
+      "<rootDir>/setupTests.js"
+    ],
+    "moduleDirectories": ["node_modules", "<rootDir>"],
+    "testPathIgnorePatterns": ["/node_modules/"],
+    "moduleNameMapper": {
+      "^../firebaseConfig$": "<rootDir>/__mocks__/firebaseConfig.js"
+    }
   }
 }

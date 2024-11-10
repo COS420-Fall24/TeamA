@@ -1,6 +1,6 @@
 const { createUser } = require('../models/user');
 
-async function register(req, res) {
+async function registerController(req, res) {
     const { email, password } = req.body;
     
     try {
@@ -24,4 +24,4 @@ async function register(req, res) {
     }
 }
 
-module.exports = { register };
+module.exports = { registerController };

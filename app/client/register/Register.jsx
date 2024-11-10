@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../styles/Auth.css';
 
 function Register() {
   const [email, setEmail] = useState('');
@@ -33,7 +34,7 @@ function Register() {
   };
 
   return (
-    <div className="register-container">
+    <div className="auth-container">
       <h2>Register</h2>
       <form onSubmit={handleSubmit}>
         <div className="form-group">

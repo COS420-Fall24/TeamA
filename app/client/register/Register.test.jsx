@@ -4,34 +4,55 @@ import '@testing-library/jest-dom';
 import Register from './Register';
 
 describe('Register Component', () => {
+  beforeEach(() => {
+    // Clear all mocks before each test
+    jest.clearAllMocks();
+  });
+
   it('should display error message on failed registration', async () => {
     // Mock the fetch function to simulate a failed registration
     global.fetch = jest.fn(() =>
       Promise.resolve({
         ok: false,
-        json: () => Promise.resolve({ error: 'This will fail.' }),
+        json: () => Promise.resolve({ error: 'Registration failed. Please try again.' }),
       })
     );
 
     render(<Register />);
 
     // Fill out the form
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
-    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'password123' } });
+    fireEvent.change(screen.getByLabelText(/email/i), { 
+      target: { value: 'test@example.com' } 
+    });
+    fireEvent.change(screen.getByLabelText(/password/i), { 
+      target: { value: 'password123' } 
+    });
 
     // Submit the form
     fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
-    // Check for the error message
-    const errorMessage = await screen.findByText('Registration failed. Please try again.');
+    // Wait for and check the error message
+    const errorMessage = await screen.findByText((content, element) => {
+      return element.tagName.toLowerCase() === 'p' && 
+             element.classList.contains('message') && 
+             content.includes('Registration failed');
+    });
+    
     expect(errorMessage).toBeInTheDocument();
-
-    // Clean up the mock
-    global.fetch.mockClear();
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    expect(global.fetch).toHaveBeenCalledWith('/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ 
+        email: 'test@example.com', 
+        password: 'password123' 
+      }),
+    });
   });
 
   it('should display success message on successful registration', async () => {
-    // Mock the fetch function to simulate a successful registration
     global.fetch = jest.fn(() =>
       Promise.resolve({
         ok: true,
@@ -41,18 +62,20 @@ describe('Register Component', () => {
 
     render(<Register />);
 
-    // Fill out the form
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
-    fireEvent.change(screen.getByLabelText(/password/i), { target: { value: 'password123' } });
+    fireEvent.change(screen.getByLabelText(/email/i), { 
+      target: { value: 'test@example.com' } 
+    });
+    fireEvent.change(screen.getByLabelText(/password/i), { 
+      target: { value: 'password123' } 
+    });
 
-    // Submit the form
     fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
-    // Check for the success message
     const successMessage = await screen.findByText('Registration successful!');
     expect(successMessage).toBeInTheDocument();
-
-    // Clean up the mock
-    global.fetch.mockClear();
+    
+    // Verify form was reset
+    expect(screen.getByLabelText(/email/i)).toHaveValue('');
+    expect(screen.getByLabelText(/password/i)).toHaveValue('');
   });
 });

@@ -39,6 +39,11 @@
     "testEnvironment": "jsdom",
     "setupFilesAfterEnv": [
       "<rootDir>/setupTests.js"
-    ]
+    ],
+    "moduleDirectories": ["node_modules", "<rootDir>"],
+    "testPathIgnorePatterns": ["/node_modules/"],
+    "moduleNameMapper": {
+      "^../firebaseConfig$": "<rootDir>/__mocks__/firebaseConfig.js"
+    }
   }
 }

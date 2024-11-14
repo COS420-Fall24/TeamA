@@ -9,6 +9,10 @@ describe('Register Component', () => {
     jest.clearAllMocks();
   });
 
+  it('should fail', async () => {
+     expect(true).toBeFalse();
+  }
+     
   it('should display error message on failed registration', async () => {
     // Mock the fetch function to simulate a failed registration
     global.fetch = jest.fn(() =>

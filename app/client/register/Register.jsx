@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../firebase'; // Adjust the path as necessary
 import '../styles/Auth.css';
 
 function Register() {
@@ -11,25 +13,12 @@ function Register() {
     setMessage('');
 
     try {
-      const response = await fetch('/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setMessage('Registration successful!');
-        setEmail('');
-        setPassword('');
-      } else {
-        setMessage(data.error || 'Registration failed. Please try again.');
-      }
+      await createUserWithEmailAndPassword(auth, email, password);
+      setMessage('Registration successful!');
+      setEmail('');
+      setPassword('');
     } catch (error) {
-      setMessage('An error occurred. Please try again later.');
+      setMessage(error.message || 'Registration failed. Please try again.');
     }
   };
 

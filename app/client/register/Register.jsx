@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../../firebase'; // Adjust the path as necessary
+import { auth } from '../firebase/firebaseClient';
 import '../styles/Auth.css';
 
 function Register() {

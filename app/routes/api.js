@@ -1,10 +1,10 @@
 const express = require('express');
-const { registerController } = require('../controller/register');
-const { loginController } = require('../controller/login');
+const verifyFirebaseToken = require('../middleware/auth');
+const { getSampleText } = require('../controller/openai');
 
 const router = express.Router();
-router.post('/login', loginController);
-router.post('/register', registerController);
+
+router.post('/openai', verifyFirebaseToken, getSampleText);
 
 module.exports = router;
 

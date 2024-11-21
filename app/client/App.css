@@ -30,7 +30,7 @@
   background-color: #073695;
   color: white;
   padding: 20px;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   width: 100%;
   text-align: center;

@@ -1,0 +1,28 @@
+@import '../login/Login.css';
+
+.name-inputs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.name-inputs input {
+  flex: 1;
+  margin-bottom: 0;
+}
+
+.login-box form {
+  margin-top: 1rem;
+}
+
+.google-button {
+  margin-top: 1rem;
+}
+
+.login-box input {
+  margin-bottom: 0.75rem;
+}
+
+.login-box input:last-of-type {
+  margin-bottom: 1rem;
+} 

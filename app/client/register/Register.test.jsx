@@ -1,81 +1,85 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
 import Register from './Register';
+import { MemoryRouter } from 'react-router-dom';
+
+// Mock the Firebase functions
+jest.mock('firebase/auth', () => ({
+  createUserWithEmailAndPassword: jest.fn(),
+  updateProfile: jest.fn(),
+  getAuth: jest.fn(() => ({
+  
+  })),
+}));
 
 describe('Register Component', () => {
   beforeEach(() => {
-    // Clear all mocks before each test
     jest.clearAllMocks();
   });
 
-  it('should display error message on failed registration', async () => {
-    // Mock the fetch function to simulate a failed registration
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        ok: false,
-        json: () => Promise.resolve({ error: 'Registration failed. Please try again.' }),
-      })
+  it('should display success message on successful registration', async () => {
+    createUserWithEmailAndPassword.mockResolvedValueOnce({});
+
+    render(
+      <MemoryRouter>
+        <Register />
+      </MemoryRouter>
     );
 
-    render(<Register />);
 
-    // Fill out the form
-    fireEvent.change(screen.getByLabelText(/email/i), { 
-      target: { value: 'test@example.com' } 
+    fireEvent.change(screen.getByLabelText('First Name'), {
+      target: { value: 'Test' }
     });
-    fireEvent.change(screen.getByLabelText(/password/i), { 
-      target: { value: 'password123' } 
+    fireEvent.change(screen.getByLabelText('Last Name'), {
+      target: { value: 'User' }
+    });
+    fireEvent.change(screen.getByLabelText(/email/i), {
+      target: { value: 'test@example.com' }
+    });
+    fireEvent.change(screen.getByLabelText('Password', { selector: 'input#password' }), {
+      target: { value: 'password123' }
+    });
+    fireEvent.change(screen.getByLabelText('Confirm Password', { selector: 'input#confirmPassword' }), {
+      target: { value: 'password123' }
     });
 
-    // Submit the form
     fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
-    // Wait for and check the error message
-    const errorMessage = await screen.findByText((content, element) => {
-      return element.tagName.toLowerCase() === 'p' && 
-             element.classList.contains('message') && 
-             content.includes('Registration failed');
-    });
-    
-    expect(errorMessage).toBeInTheDocument();
-    expect(global.fetch).toHaveBeenCalledTimes(1);
-    expect(global.fetch).toHaveBeenCalledWith('/api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ 
-        email: 'test@example.com', 
-        password: 'password123' 
-      }),
+    await waitFor(() => {
+      expect(screen.getByText('Registration successful!')).toBeInTheDocument();
     });
   });
 
-  it('should display success message on successful registration', async () => {
-    global.fetch = jest.fn(() =>
-      Promise.resolve({
-        ok: true,
-        json: () => Promise.resolve({ message: 'Registration successful!' }),
-      })
+  it('should display error message on failed registration', async () => {
+    createUserWithEmailAndPassword.mockRejectedValueOnce(new Error('Registration failed. Please try again.'));
+
+    render(
+      <MemoryRouter>
+        <Register />
+      </MemoryRouter>
     );
 
-    render(<Register />);
-
-    fireEvent.change(screen.getByLabelText(/email/i), { 
-      target: { value: 'test@example.com' } 
+    fireEvent.change(screen.getByLabelText('First Name'), {
+      target: { value: 'Test' }
     });
-    fireEvent.change(screen.getByLabelText(/password/i), { 
-      target: { value: 'password123' } 
+    fireEvent.change(screen.getByLabelText('Last Name'), {
+      target: { value: 'User' }
+    });
+    fireEvent.change(screen.getByLabelText(/email/i), {
+      target: { value: 'test@example.com' }
+    });
+    fireEvent.change(screen.getByLabelText('Password', { selector: 'input#password' }), {
+      target: { value: 'password123' }
+    });
+    fireEvent.change(screen.getByLabelText('Confirm Password', { selector: 'input#confirmPassword' }), {
+      target: { value: 'password123' }
     });
 
     fireEvent.click(screen.getByRole('button', { name: /register/i }));
 
-    const successMessage = await screen.findByText('Registration successful!');
-    expect(successMessage).toBeInTheDocument();
-    
-    // Verify form was reset
-    expect(screen.getByLabelText(/email/i)).toHaveValue('');
-    expect(screen.getByLabelText(/password/i)).toHaveValue('');
+    await waitFor(() => {
+      expect(screen.getByText('Registration failed. Please try again.')).toBeInTheDocument();
+    });
   });
 });

@@ -1,7 +1,8 @@
 const mockAdmin = {
   auth: () => ({
     createUser: jest.fn(),
-    verifyIdToken: jest.fn()
+    verifyIdToken: jest.fn(),
+    signInWithPopup: jest.fn(),
   })
 };
 

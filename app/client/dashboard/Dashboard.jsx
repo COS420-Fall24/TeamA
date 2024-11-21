@@ -25,13 +25,13 @@ const Dashboard = () => {
             const user = auth.currentUser;
             if (user) {
                 const token = await user.getIdToken();
-                const response = await fetch('/api/openai', {
+                const response = await fetch('/api/gemini', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify({ data: 'yourData' })
+                    body: JSON.stringify({ prompt: 'What is 2 + 2?' })
                 });
 
                 const result = await response.json();

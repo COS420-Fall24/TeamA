@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { auth } from '../firebase/firebaseClient';
 import { useNavigate } from 'react-router-dom';
-import SearchBar from '../components/search';
+import SearchBar from '../components/Search';
 import Listing from '../components/Listing';
 const Dashboard = () => {
     const navigate = useNavigate();

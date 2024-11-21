@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { auth } from '../firebase/firebaseClient';
 import { useNavigate } from 'react-router-dom';
-
+import SearchBar from '../components/search';
+import Listing from '../components/Listing';
 const Dashboard = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
-
+    const [listings, setListings] = useState([]);
+ 
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             if (!user) {
@@ -44,9 +46,25 @@ const Dashboard = () => {
         return <div>Loading...</div>;
     }
 
+    function onSearch(matches) {
+        setListings(matches);
+    }
+
     return (
         <div>
             <h1>Welcome to the Dashboard</h1>
+            <SearchBar onSearch={onSearch} />
+            <div className="listings-container">
+                {listings.map((listing, index) => (
+                    console.log(listing),
+                    <Listing
+                        key={index}
+                        name={listing.name}
+                        description={listing.description}
+                    />
+                ))}
+            </div>
+
             <p>This page is only accessible to logged-in users.</p>
             <button onClick={handleRequest}>Send Token to Backend</button>
         </div>

@@ -12,10 +12,12 @@ function Register() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');
+    setSuccess('');
 
     if (password !== confirmPassword) {
       setError('Passwords do not match.');
@@ -29,6 +31,7 @@ function Register() {
       await updateProfile(user, {
         displayName: `${firstName} ${lastName}`
       });
+      setSuccess('Registration successful!');
     } catch (error) {
       setError(error.message || 'Registration failed. Please try again.');
     }
@@ -95,6 +98,7 @@ function Register() {
             Already a member? <Link to="/login">Sign in</Link>
           </p>
 
+          {success && <p className="success">{success}</p>}
           {error && <p className="error">{error}</p>}
         </div>
       </div>

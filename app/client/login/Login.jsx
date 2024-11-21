@@ -14,7 +14,7 @@ function Login() {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             const idToken = await userCredential.user.getIdToken();
-            
+
             // Send token to backend for verification
             const response = await fetch('/api/login', {
                 method: 'POST',
@@ -68,4 +68,4 @@ function Login() {
     );
 }
 
-export default Login; 
+export default Login;

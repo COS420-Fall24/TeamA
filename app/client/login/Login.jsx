@@ -3,7 +3,7 @@ import { auth } from '../firebase/firebaseClient';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import '../styles/Auth.css';
 import { useNavigate } from 'react-router-dom';
-import GoogleSignInButton from '../general/GoogleSignInButton';
+import GoogleSignInButton from '../components/GoogleSignInButton';
 
 function Login() {
     const [email, setEmail] = useState('');

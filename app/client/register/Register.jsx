@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase/firebaseClient';
 import '../styles/Auth.css';
-import GoogleSignInButton from '../general/GoogleSignInButton';
+import GoogleSignInButton from '../components/GoogleSignInButton';
 
 function Register() {
   const [firstName, setFirstName] = useState('');

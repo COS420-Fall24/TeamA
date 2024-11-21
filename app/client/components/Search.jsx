@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const mockData = [
   {
-    name: 'asdf',
+    name: 'hello2',
     description: 'This is a description of the listing'
   },
   {

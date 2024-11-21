@@ -7,6 +7,7 @@ const app = express();
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname, 'client')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
 // Use site routes
 app.use('/', siteRoutes);

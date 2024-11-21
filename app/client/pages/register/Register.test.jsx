@@ -19,7 +19,9 @@ describe('Register Component', () => {
   });
 
   it('should display success message on successful registration', async () => {
-    createUserWithEmailAndPassword.mockResolvedValueOnce({});
+    createUserWithEmailAndPassword.mockResolvedValueOnce({
+      user: {}
+    });
 
     render(
       <MemoryRouter>
@@ -27,24 +29,23 @@ describe('Register Component', () => {
       </MemoryRouter>
     );
 
-
-    fireEvent.change(screen.getByLabelText('First Name'), {
+    fireEvent.change(screen.getByPlaceholderText('First Name'), {
       target: { value: 'Test' }
     });
-    fireEvent.change(screen.getByLabelText('Last Name'), {
+    fireEvent.change(screen.getByPlaceholderText('Last Name'), {
       target: { value: 'User' }
     });
-    fireEvent.change(screen.getByLabelText(/email/i), {
+    fireEvent.change(screen.getByPlaceholderText('Enter your email'), {
       target: { value: 'test@example.com' }
     });
-    fireEvent.change(screen.getByLabelText('Password', { selector: 'input#password' }), {
+    fireEvent.change(screen.getByPlaceholderText('Enter a password'), {
       target: { value: 'password123' }
     });
-    fireEvent.change(screen.getByLabelText('Confirm Password', { selector: 'input#confirmPassword' }), {
+    fireEvent.change(screen.getByPlaceholderText('Confirm password'), {
       target: { value: 'password123' }
     });
 
-    fireEvent.click(screen.getByRole('button', { name: /register/i }));
+    fireEvent.click(screen.getByText('Continue'));
 
     await waitFor(() => {
       expect(screen.getByText('Registration successful!')).toBeInTheDocument();
@@ -60,23 +61,23 @@ describe('Register Component', () => {
       </MemoryRouter>
     );
 
-    fireEvent.change(screen.getByLabelText('First Name'), {
+    fireEvent.change(screen.getByPlaceholderText('First Name'), {
       target: { value: 'Test' }
     });
-    fireEvent.change(screen.getByLabelText('Last Name'), {
+    fireEvent.change(screen.getByPlaceholderText('Last Name'), {
       target: { value: 'User' }
     });
-    fireEvent.change(screen.getByLabelText(/email/i), {
+    fireEvent.change(screen.getByPlaceholderText('Enter your email'), {
       target: { value: 'test@example.com' }
     });
-    fireEvent.change(screen.getByLabelText('Password', { selector: 'input#password' }), {
+    fireEvent.change(screen.getByPlaceholderText('Enter a password'), {
       target: { value: 'password123' }
     });
-    fireEvent.change(screen.getByLabelText('Confirm Password', { selector: 'input#confirmPassword' }), {
+    fireEvent.change(screen.getByPlaceholderText('Confirm password'), {
       target: { value: 'password123' }
     });
 
-    fireEvent.click(screen.getByRole('button', { name: /register/i }));
+    fireEvent.click(screen.getByText('Continue'));
 
     await waitFor(() => {
       expect(screen.getByText('Registration failed. Please try again.')).toBeInTheDocument();

@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { auth } from '../firebase/firebaseClient';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import '../styles/Auth.css';
-
+import { useNavigate } from 'react-router-dom';
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
     const [message, setMessage] = useState('');
 
+    const navigate = useNavigate();
     const handleSubmit = async (event) => {
         event.preventDefault();
         setError('');
@@ -17,10 +18,7 @@ function Login() {
         try {
             const userCredential = await signInWithEmailAndPassword(auth, email, password);
             setMessage('Login successful!');
-            userCredential.user.getIdToken().then((token) => {
-                // Store the token in local storage
-                localStorage.setItem('firebaseToken', token);
-            });
+            navigate('/dashboard');
         } catch (error) {
             setError(error.message || 'Login failed. Please try again.');
         }

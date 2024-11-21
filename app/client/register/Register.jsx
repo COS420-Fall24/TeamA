@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile, signInWithPopup } from 'firebase/auth';
 import { auth } from '../firebase/firebaseClient';
 import '../styles/Auth.css';
+import GoogleSignInButton from '../general/GoogleSignInButton';
 
 function Register() {
   const [firstName, setFirstName] = useState('');
@@ -42,6 +43,7 @@ function Register() {
   return (
     <div className="auth-container">
       <h2>Register</h2>
+      <GoogleSignInButton />
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="firstName">First Name</label>

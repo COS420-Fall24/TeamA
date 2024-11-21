@@ -3,6 +3,8 @@ import { auth } from '../firebase/firebaseClient';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import '../styles/Auth.css';
 import { useNavigate } from 'react-router-dom';
+import GoogleSignInButton from '../general/GoogleSignInButton';
+
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -27,6 +29,7 @@ function Login() {
     return (
         <div className="auth-container">
             <h2>Login</h2>
+            <GoogleSignInButton />
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="email">Email</label>

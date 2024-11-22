@@ -5,10 +5,11 @@ import FirebaseService from '../../firebase/FirebaseService';
 import Header from '../../components/Header';
 const Home = () => {
     const navigate = useNavigate();
+
     const [listings, setListings] = useState([]);
     const [userPrompt, setUserPrompt] = useState('');
     const [geminiResponse, setGeminiResponse] = useState('');
- 
+  
     const handleRequest = async () => {
         try {
             const result = await FirebaseService.sendAuthenticatedRequest('gemini', {
@@ -24,10 +25,10 @@ const Home = () => {
     };
 
     return (
-        <div className="dashboard-page">
-            <div className="dashboard-content">
+        <div className="home-page">
+            <div className="home-content">
                 <Header isLoggedIn={true} />
-                <h1>Welcome to the Dashboard</h1>
+                <h1>Welcome to the Home Page</h1>
                 <div className="listings-container">
                     {listings.map((listing, index) => (
                         <Listing
@@ -47,6 +48,9 @@ const Home = () => {
                     />
                     <button onClick={handleRequest}>Send Prompt</button>
                 </div>
+
+                <br />
+                <br />
 
                 {geminiResponse && (
                     <div>

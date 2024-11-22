@@ -20,11 +20,11 @@ const Header = ({ isLoggedIn = false }) => {
                 <Link to="/profile" className={location.pathname === '/profile' ? 'active' : ''}>
                   Profile
                 </Link>
-                <Link to="/mentors" className={location.pathname === '/mentors' ? 'active' : ''}>
-                  Mentors
-                </Link>
                 <Link to="/jobs" className={location.pathname === '/jobs' ? 'active' : ''}>
                   Jobs
+                </Link>
+                <Link to="/mentors" className={location.pathname === '/mentors' ? 'active' : ''}>
+                  Mentors
                 </Link>
                 <Link to="/messages" className={location.pathname === '/messages' ? 'active' : ''}>
                   Messages

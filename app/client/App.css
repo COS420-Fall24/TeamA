@@ -45,7 +45,8 @@
 nav{
   display: flex;
   justify-content: center;
-  gap: 80px;            /*This is the gap between Home and Register*/
+  gap: 20px;            /*This is the gap between Home and Register*/
+  flex-wrap: wrap;
 }
 
 /*Styles navigation links*/

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { auth } from '../../firebase/firebaseClient';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useNavigate, Link } from 'react-router-dom';
+import { FirebaseService } from '../../firebase/FirebaseService';
 import GoogleSignInButton from '../../components/GoogleSignInButton';
 import './Login.css';
 
@@ -12,17 +11,18 @@ function Login() {
     const [message, setMessage] = useState('');
 
     const navigate = useNavigate();
+    
     const handleSubmit = async (event) => {
         event.preventDefault();
         setError('');
         setMessage('');
 
         try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
+            await FirebaseService.loginWithEmailAndPassword(email, password);
             setMessage('Login successful!');
             navigate('/dashboard');
         } catch (error) {
-            setError(error.message || 'Login failed. Please try again.');
+            setError(error.message);
         }
     };
 

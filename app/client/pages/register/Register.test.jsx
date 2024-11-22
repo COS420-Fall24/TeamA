@@ -1,33 +1,14 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { screen, fireEvent, waitFor } from '@testing-library/react';
 import Register from './Register';
-import { MemoryRouter } from 'react-router-dom';
-
-// Mock the Firebase functions
-jest.mock('firebase/auth', () => ({
-  createUserWithEmailAndPassword: jest.fn(),
-  updateProfile: jest.fn(),
-  getAuth: jest.fn(() => ({
-  
-  })),
-}));
+import { renderWithRouter } from '../../test-utils';
+import { FirebaseService } from '../../firebase/FirebaseService';
 
 describe('Register Component', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('should display success message on successful registration', async () => {
-    createUserWithEmailAndPassword.mockResolvedValueOnce({
-      user: {}
-    });
-
-    render(
-      <MemoryRouter>
-        <Register />
-      </MemoryRouter>
-    );
+    jest.spyOn(FirebaseService, 'registerWithEmailAndPassword').mockResolvedValueOnce();
+    
+    renderWithRouter(<Register />);
 
     fireEvent.change(screen.getByPlaceholderText('First Name'), {
       target: { value: 'Test' }
@@ -53,13 +34,9 @@ describe('Register Component', () => {
   });
 
   it('should display error message on failed registration', async () => {
-    createUserWithEmailAndPassword.mockRejectedValueOnce(new Error('Registration failed. Please try again.'));
-
-    render(
-      <MemoryRouter>
-        <Register />
-      </MemoryRouter>
-    );
+    jest.spyOn(FirebaseService, 'registerWithEmailAndPassword').mockRejectedValueOnce(new Error('Registration failed. Please try again.'));
+    
+    renderWithRouter(<Register />);
 
     fireEvent.change(screen.getByPlaceholderText('First Name'), {
       target: { value: 'Test' }

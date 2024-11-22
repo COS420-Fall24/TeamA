@@ -4,6 +4,8 @@ import Register from './pages/register/Register';
 import Login from './pages/login/Login';
 import Dashboard from './pages/dashboard/Dashboard';
 import Listings from './pages/listing/Listing';
+import JobListing from './pages/jobListing/JobListing';
+import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
 function App() {
@@ -14,8 +16,24 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/jobs" element={<Listings />} />
+          <Route path="/dashboard" element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/jobs" element={
+            <ProtectedRoute>
+              <Listings />
+            </ProtectedRoute>
+          } />
+          <Route 
+            path="/create-listing" 
+            element={
+              <ProtectedRoute>
+                <JobListing />
+              </ProtectedRoute>
+            } 
+          />
         </Routes>
       </div>
       <footer className="App-footer">

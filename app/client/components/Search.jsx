@@ -1,22 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
-const mockData = [
-  {
-    name: 'hello2',
-    description: 'This is a description of the listing'
-  },
-  {
-    name: 'hello',
-    description: 'This is a description of the listing'
-  },
-  {
-    name: 'test3',
-    description: 'This is a description of the listing'
-  }
-]
-
-const SearchBar = ({ initialSearch = '', onSearch }) => {
+const SearchBar = ({ initialSearch = '', onSearch, allListings = [] }) => {
   const [searchTerm, setSearchTerm] = useState(initialSearch);
 
   useEffect(() => {
@@ -25,8 +10,11 @@ const SearchBar = ({ initialSearch = '', onSearch }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const matches = mockData.filter(item => 
-      item.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+    if (!allListings.length) return;
+
+    const matches = allListings.filter(item => 
+      item.jobName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.description?.toLowerCase().includes(searchTerm.toLowerCase())
     );
     onSearch(matches);
   };
@@ -47,7 +35,12 @@ const SearchBar = ({ initialSearch = '', onSearch }) => {
 
 SearchBar.propTypes = {
   initialSearch: PropTypes.string,
-  onSearch: PropTypes.func.isRequired
+  onSearch: PropTypes.func.isRequired,
+  allListings: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.string,
+    jobName: PropTypes.string,
+    description: PropTypes.string
+  }))
 };
 
 export default SearchBar;

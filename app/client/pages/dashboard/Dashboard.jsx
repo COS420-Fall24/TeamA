@@ -1,53 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import { auth } from '../../firebase/firebaseClient';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from '../../components/Search';
 import Listing from '../../components/Listing';
+import FirebaseService from '../../firebase/FirebaseService';
 
 const Dashboard = () => {
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
     const [listings, setListings] = useState([]);
     const [userPrompt, setUserPrompt] = useState('');
     const [geminiResponse, setGeminiResponse] = useState('');
  
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-            if (!user) {
-                navigate('/login');
-            } else {
-                setLoading(false);
-            }
-        });
-
-        return () => unsubscribe();
-    }, [navigate]);
-
     const handleRequest = async () => {
         try {
-            const user = auth.currentUser;
-            if (user) {
-                const token = await user.getIdToken();
-                const response = await fetch('/api/gemini', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ prompt: userPrompt })
-                });
-
-                const result = await response.json();
-                setGeminiResponse(result.message);
-            }
+            const result = await FirebaseService.sendAuthenticatedRequest('gemini', {
+                prompt: userPrompt
+            });
+            setGeminiResponse(result.message);
         } catch (error) {
             console.error('Error sending prompt to backend:', error);
+            if (error.message.includes('must be authenticated')) {
+                navigate('/login');
+            }
         }
     };
-
-    if (loading) {
-        return <div>Loading...</div>;
-    }
 
     function onSearch(matches) {
         setListings(matches);

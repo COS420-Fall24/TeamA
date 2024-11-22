@@ -30,6 +30,15 @@ function ProtectedRoute({ children }) {
         );
     }
 
+    if (!authState.isAuthenticated) {
+        return (
+            <div className="auth-container">
+                <p>Please log in</p>
+                <p>You must be logged in to post and view jobs</p>
+            </div>
+        );
+    }
+
     return children;
 }
 

@@ -20,6 +20,11 @@ function JobListing() {
 
     const saveJob = async () => {
         try {
+            if (!jobName.trim() || !description.trim()) {
+                setError('Both job name and description are required');
+                return;
+            }
+
             await FirebaseService.saveJobListing({
                 jobName,
                 description

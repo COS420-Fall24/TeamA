@@ -43,6 +43,7 @@ html, body {
 .login-box h1 {
     color: #729E84;
     font-size: 2rem;
+    font-weight: normal;
     margin-bottom: 2rem;
 }
 
@@ -73,10 +74,11 @@ html, body {
     border-radius: 4px;
     background-color: #E8F0EB; /* Light sage green for input backgrounds */
     font-size: 1rem;
-   
+    padding-left: 10px;
 }
 
 .login-box input::placeholder {
+    font-family: 'Georgia', serif;
     color: #729E84;
 }
 

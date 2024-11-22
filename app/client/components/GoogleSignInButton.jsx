@@ -8,7 +8,7 @@ function GoogleSignInButton() {
     const handleGoogleSignIn = async () => {
         try {
             await FirebaseService.signInWithGoogle();
-            navigate('/dashboard');
+            navigate('/home');
         } catch (error) {
             console.error('Google sign-in failed:', error);
         }

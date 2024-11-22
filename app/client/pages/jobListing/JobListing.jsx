@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ref as dbRef, push, get } from 'firebase/database';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { database } from '../../firebase/firebaseClient';
+import FirebaseService from '../../firebase/FirebaseService';
 import '../../styles/Auth.css';
 
 function JobListing() {
@@ -10,94 +8,32 @@ function JobListing() {
     const [jobs, setJobs] = useState([]);
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
-    const [user, setUser] = useState(null);
-
-    // Check authentication status when component mounts
-    useEffect(() => {
-        const auth = getAuth();
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
-            if (currentUser) {
-                fetchJobs();
-            }
-        });
-
-        // Cleanup subscription
-        return () => unsubscribe();
-    }, []);
 
     const fetchJobs = async () => {
         try {
-            const jobsRef = dbRef(database, 'jobs');
-            const snapshot = await get(jobsRef);
-
-            if (snapshot.exists()) {
-                const jobsData = snapshot.val();
-                const jobsArray = Object.entries(jobsData).map(([id, data]) => ({
-                    id,
-                    ...data
-                }));
-                setJobs(jobsArray);
-            }
+            const jobsArray = await FirebaseService.getJobListings();
+            setJobs(jobsArray);
         } catch (error) {
-            setError('Error fetching jobs: ' + error.message);
+            setError(error.message);
         }
     };
 
     const saveJob = async () => {
-        // Check if user is authenticated
-        if (!user) {
-            setError("You must be logged in to post jobs.");
-            return;
-        }
-
-        // Input validation
-        if (!jobName || !description) {
-            setError("Both job name and description are required.");
-            return;
-        }
-
         try {
-            // Create a reference to the 'jobs' node in the database
-            const jobsRef = dbRef(database, 'jobs');
-
-            // Create new job object with user ID
-            const newJob = {
+            await FirebaseService.saveJobListing({
                 jobName,
-                description,
-                createdAt: new Date().toISOString(),
-                userId: user.uid,
-                userEmail: user.email
-            };
+                description
+            });
 
-            // Push the new job to Firebase
-            await push(jobsRef, newJob);
-
-            // Show success message
             setMessage(`Job "${jobName}" saved successfully.`);
             setError('');
-
-            // Clear input fields
             setJobName('');
             setDescription('');
-
-            // Refresh jobs list
             fetchJobs();
         } catch (err) {
-            setError('Error saving job: ' + err.message);
+            setError(err.message);
         }
     };
-
-    // If user is not authenticated, show login prompt
-    if (!user) {
-        return (
-            <div className="auth-container">
-                <h2>Please Log In</h2>
-                <p>You must be logged in to post and view jobs.</p>
-                {/* Add your login button/component here */}
-            </div>
-        );
-    }
 
     return (
         <div className="auth-container">

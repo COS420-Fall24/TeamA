@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth } from '../../firebase/firebaseClient';
 import { Link } from 'react-router-dom';
+import { FirebaseService } from '../../firebase/FirebaseService';
 import GoogleSignInButton from '../../components/GoogleSignInButton';
 import './Register.css';
 
@@ -25,15 +24,15 @@ function Register() {
     }
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      const user = userCredential.user;
-
-      await updateProfile(user, {
-        displayName: `${firstName} ${lastName}`
-      });
+      await FirebaseService.registerWithEmailAndPassword(
+        email, 
+        password, 
+        firstName, 
+        lastName
+      );
       setSuccess('Registration successful!');
     } catch (error) {
-      setError(error.message || 'Registration failed. Please try again.');
+      setError(error.message);
     }
   };
 

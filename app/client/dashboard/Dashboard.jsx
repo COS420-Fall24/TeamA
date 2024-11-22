@@ -3,10 +3,13 @@ import { auth } from '../firebase/firebaseClient';
 import { useNavigate } from 'react-router-dom';
 import SearchBar from '../components/search';
 import Listing from '../components/Listing';
+
 const Dashboard = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [listings, setListings] = useState([]);
+    const [userPrompt, setUserPrompt] = useState('');
+    const [geminiResponse, setGeminiResponse] = useState('');
  
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -31,14 +34,14 @@ const Dashboard = () => {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    body: JSON.stringify({ prompt: 'What is 2 + 2?' })
+                    body: JSON.stringify({ prompt: userPrompt })
                 });
 
                 const result = await response.json();
-                console.log('Response from backend:', result);
+                setGeminiResponse(result.message);
             }
         } catch (error) {
-            console.error('Error sending token to backend:', error);
+            console.error('Error sending prompt to backend:', error);
         }
     };
 
@@ -66,7 +69,25 @@ const Dashboard = () => {
             </div>
 
             <p>This page is only accessible to logged-in users.</p>
-            <button onClick={handleRequest}>Send Token to Backend</button>
+
+            {/*Prompt for AI */}
+            <div>
+                <input
+                    type="text"
+                    value={userPrompt}
+                    onChange={(e) => setUserPrompt(e.target.value)}
+                    placeholder='Ask AI about finding jobs...'
+                />
+            <button onClick={handleRequest}>Send Prompt</button>
+            </div>
+
+            {/*Display AI answer*/}
+            {geminiResponse && (
+                <div>
+                    <h2>Gemini's Response:</h2>
+                    <p>{geminiResponse}</p>
+                </div>
+            )}
         </div>
     );
 };

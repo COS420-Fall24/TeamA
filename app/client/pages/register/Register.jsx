@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { FirebaseService } from '../../firebase/FirebaseService';
 import GoogleSignInButton from '../../components/GoogleSignInButton';
 import './Register.css';
@@ -12,6 +12,8 @@ function Register() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -31,6 +33,7 @@ function Register() {
         lastName
       );
       setSuccess('Registration successful!');
+      navigate('/home');
     } catch (error) {
       setError(error.message);
     }

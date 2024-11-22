@@ -20,7 +20,7 @@ function Login() {
         try {
             await FirebaseService.loginWithEmailAndPassword(email, password);
             setMessage('Login successful!');
-            navigate('/dashboard');
+            navigate('/home');
         } catch (error) {
             setError(error.message);
         }

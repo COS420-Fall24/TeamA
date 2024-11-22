@@ -1,9 +1,19 @@
 import { screen, fireEvent, waitFor } from '@testing-library/react';
 import JobListing from './JobListing';
 import { renderWithRouter } from '../../test-utils';
+import { FirebaseService } from '../../firebase/FirebaseService';
 import * as React from 'react';
 
 describe('JobListing Component', () => {
+  beforeEach(() => {
+    jest.spyOn(FirebaseService, 'getCurrentUser').mockReturnValue({
+      uid: 'testUid',
+      email: 'test@example.com'
+    });
+    jest.spyOn(FirebaseService, 'getJobListings').mockResolvedValue([]);
+    jest.spyOn(FirebaseService, 'saveJobListing').mockResolvedValue('testJobId');
+  });
+
   it('should show error message when submitting empty form', async () => {
     renderWithRouter(<JobListing />);
     
@@ -32,6 +42,11 @@ describe('JobListing Component', () => {
       expect(screen.getByRole('alert')).toHaveTextContent(
         `Job "${jobName}" saved successfully.`
       );
+    });
+
+    expect(FirebaseService.saveJobListing).toHaveBeenCalledWith({
+      jobName: 'Software Engineer',
+      description: 'Full-stack developer position'
     });
   });
 });

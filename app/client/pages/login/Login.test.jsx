@@ -1,36 +1,14 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import { signInWithEmailAndPassword } from 'firebase/auth';
 import Login from './Login';
-import { MemoryRouter } from 'react-router-dom';
-
-// Mock the Firebase functions
-jest.mock('firebase/auth', () => ({
-  signInWithEmailAndPassword: jest.fn(),
-  getAuth: jest.fn(() => ({})),
-}));
-
-// Mock the useNavigate hook
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useNavigate: () => jest.fn()
-}));
+import { renderWithRouter } from '../../test-utils';
+import { FirebaseService } from '../../firebase/FirebaseService';
 
 describe('Login Component', () => {
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
   it('should display success message on successful login', async () => {
-    signInWithEmailAndPassword.mockResolvedValueOnce({
-      user: {}
-    });
+    jest.spyOn(FirebaseService, 'loginWithEmailAndPassword').mockResolvedValueOnce();
 
-    render(
-      <MemoryRouter>
-        <Login />
-      </MemoryRouter>
-    );
+    renderWithRouter(<Login />);
 
     fireEvent.change(screen.getByPlaceholderText('Enter your email'), {
       target: { value: 'test@example.com' }
@@ -47,13 +25,8 @@ describe('Login Component', () => {
   });
 
   it('should display error message on failed login', async () => {
-    signInWithEmailAndPassword.mockRejectedValueOnce(new Error('Login failed. Please try again.'));
-
-    render(
-      <MemoryRouter>
-        <Login />
-      </MemoryRouter>
-    );
+    jest.spyOn(FirebaseService, 'loginWithEmailAndPassword').mockRejectedValueOnce(new Error('Login failed. Please try again.'));
+    renderWithRouter(<Login />);
 
     fireEvent.change(screen.getByPlaceholderText('Enter your email'), {
       target: { value: 'test@example.com' }

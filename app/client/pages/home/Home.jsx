@@ -5,9 +5,14 @@ import FirebaseService from '../../firebase/FirebaseService';
 import Header from '../../components/Header';
 const Home = () => {
     const navigate = useNavigate();
+
     const [userPrompt, setUserPrompt] = useState('');
     const [geminiResponse, setGeminiResponse] = useState('');
 
+    const [listings, setListings] = useState([]);
+    const [userPrompt, setUserPrompt] = useState('');
+    const [geminiResponse, setGeminiResponse] = useState('');
+  
     const handleRequest = async () => {
         try {
             const result = await FirebaseService.sendAuthenticatedRequest('gemini', {
@@ -17,16 +22,31 @@ const Home = () => {
         } catch (error) {
             console.error('Error sending prompt to backend:', error);
             if (error.message.includes('must be authenticated')) {
-                navigate('/home');
+                navigate('/login');
             }
         }
     };
 
     return (
+
         <div className="home-page">
             <div className="home-content">
                 <Header isLoggedIn={true} />
                 <h1>Welcome to the Home</h1>
+
+        <div className="dashboard-page">
+            <div className="dashboard-content">
+                <Header isLoggedIn={true} />
+                <h1>Welcome to the Dashboard</h1>
+                <div className="listings-container">
+                    {listings.map((listing, index) => (
+                        <Listing
+                            key={index}
+                            name={listing.name}
+                            description={listing.description}
+                        />
+                    ))}
+                </div>
 
                 <div>
                     <input
@@ -40,6 +60,7 @@ const Home = () => {
 
                 <br />
                 <br />
+
                 {geminiResponse && (
                     <div>
                         <h2>Gemini's Response:</h2>

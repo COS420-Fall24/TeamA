@@ -1,3 +1,7 @@
+html, body {
+    margin: 0;
+    padding: 0;
+  }
 .login-container {
     display: flex;
     height: 100vh;
@@ -20,7 +24,7 @@
 .login-box {
     width: 100%;
     max-width: 400px;
-    padding: 2rem;
+    
     text-align: center;
 }
 
@@ -29,7 +33,7 @@
     height: 80px;
     background-color: #729E84;
     color: white;
-    font-size: 2rem;
+    font-size: 3.25rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -47,14 +51,15 @@
     align-items: center;
     text-align: center;
     margin: 2rem 0;
-    color: #666;
+    color:#729E84;
 }
 
 .divider::before,
 .divider::after {
     content: '';
     flex: 1;
-    border-bottom: 1px solid #ddd;
+    
+    border-bottom: 1px solid #729E84;
 }
 
 .divider span {
@@ -63,12 +68,12 @@
 
 .login-box input {
     width: 100%;
-    padding: 1rem;
-    margin-bottom: 1rem;
+    height: 3em;
     border: none;
     border-radius: 4px;
     background-color: #E8F0EB; /* Light sage green for input backgrounds */
     font-size: 1rem;
+   
 }
 
 .login-box input::placeholder {
@@ -97,7 +102,7 @@
 }
 
 .create-account a {
-    color: #729E84;
+    color: #be89a6;
     text-decoration: none;
 }
 
@@ -120,7 +125,7 @@
 }
 
 .google-button:hover {
-    background-color: #f8f8f8;
+    background-color: #eaeaea;
 }
 
 .message {

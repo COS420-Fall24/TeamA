@@ -1,7 +1,7 @@
 /*Styles the container element for the app*/
 .App {
   text-align: flex-start;
-  font-family: 'Arial', sans-serif;
+  font-family: 'Georgia', serif;
   background-color: white;
 }
 
@@ -27,14 +27,12 @@
 
 /*Styles the footer section of the app*/
 .App-footer{
-  background-color: #073695;
+  background-color: #729E84;
   color: white;
   padding: 20px;
-  position: absolute;
-  bottom: 0;
+  position: relative;
   width: 100%;
   text-align: center;
-  box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.2);
 }
 
 /*Styles the links in the app*/

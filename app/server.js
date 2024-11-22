@@ -1,8 +1,11 @@
 const express = require('express');
+const dotenv = require('dotenv');
 const siteRoutes = require('./routes/site');
 const apiRoutes = require('./routes/api');
 const path = require('path');
 const app = express();
+
+dotenv.config();
 
 app.use(express.json());
 

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { ref as dbRef, push, get, child } from 'firebase/database';
+import { ref as dbRef, push, get } from 'firebase/database';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { database } from '../firebase/firebaseClient';
-import '../styles/Auth.css';
+import { database } from '../../firebase/firebaseClient';
+import '../../styles/Auth.css';
 
 function JobListing() {
     const [jobName, setJobName] = useState('');

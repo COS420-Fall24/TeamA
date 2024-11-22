@@ -8,7 +8,7 @@ import { ref, push, get } from 'firebase/database';
 // Mock Firebase modules
 jest.mock('firebase/auth');
 jest.mock('firebase/database');
-jest.mock('../firebase/firebaseClient', () => ({
+jest.mock('../../firebase/firebaseClient', () => ({
   database: {},
   auth: {}
 }));

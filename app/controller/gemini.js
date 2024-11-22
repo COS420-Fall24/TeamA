@@ -1,4 +1,3 @@
-require('dotenv').config();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_KEY);
@@ -14,11 +13,6 @@ async function processPrompt(req, res) {
         throw error;
     }
 }
-
-const express = require('express');
-const router = express.Router();
-
-
 
 module.exports = {
     processPrompt

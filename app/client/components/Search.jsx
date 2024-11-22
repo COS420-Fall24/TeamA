@@ -3,11 +3,7 @@ import PropTypes from 'prop-types';
 
 const mockData = [
   {
-<<<<<<< HEAD
     name: 'hello2',
-=======
-    name: 'asdf',
->>>>>>> 2cac9707555347b139d5d7369f2b615c408d7a66
     description: 'This is a description of the listing'
   },
   {

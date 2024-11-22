@@ -4,7 +4,7 @@ import Register from './pages/register/Register';
 import Login from './pages/login/Login';
 import Home from './pages/home/Home';
 import Listings from './pages/listing/Listing';
-import JobListing from './pages/jobListing/JobListing';
+import JobListing from './pages/create-job/JobListing';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
@@ -27,7 +27,7 @@ function App() {
             </ProtectedRoute>
           } />
           <Route 
-            path="/create-listing" 
+            path="/create-job" 
             element={
               <ProtectedRoute>
                 <JobListing />

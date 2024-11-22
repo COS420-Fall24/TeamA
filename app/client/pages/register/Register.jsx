@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { FirebaseService } from '../../firebase/FirebaseService';
+import { redirectIfNotLoggedIn } from '../../firebase/authUtils';
 import GoogleSignInButton from '../../components/GoogleSignInButton';
 import './Register.css';
 
@@ -14,6 +15,11 @@ function Register() {
   const [success, setSuccess] = useState('');
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const unsubscribe = redirectIfNotLoggedIn('register', () => navigate('/home'), navigate);
+    return () => unsubscribe();
+  }, [navigate]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();

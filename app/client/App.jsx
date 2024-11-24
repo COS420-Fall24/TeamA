@@ -2,9 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Register from './pages/register/Register';
 import Login from './pages/login/Login';
-import Dashboard from './pages/dashboard/Dashboard';
+import Home from './pages/home/Home';
 import Listings from './pages/listing/Listing';
-import JobListing from './pages/jobListing/JobListing';
+import JobListing from './pages/create-job/JobListing';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
@@ -16,9 +16,9 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dashboard" element={
+          <Route path="/home" element={
             <ProtectedRoute>
-              <Dashboard />
+              <Home />
             </ProtectedRoute>
           } />
           <Route path="/jobs" element={
@@ -27,7 +27,7 @@ function App() {
             </ProtectedRoute>
           } />
           <Route 
-            path="/create-listing" 
+            path="/create-job" 
             element={
               <ProtectedRoute>
                 <JobListing />

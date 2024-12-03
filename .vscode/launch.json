@@ -21,6 +21,26 @@
         },
         {
             "type": "node",
+            "name": "vscode-jest-tests.v2.TeamA-1733260933551",
+            "request": "launch",
+            "args": [
+                "test",
+                "--",
+                "--runInBand",
+                "--watchAll=false",
+                "--testNamePattern",
+                "${jest.testNamePattern}",
+                "--runTestsByPath",
+                "${jest.testFile}"
+            ],
+            "cwd": "/Users/jake/Documents/TeamA/app",
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "disableOptimisticBPs": true,
+            "runtimeExecutable": "npm"
+        },
+        {
+            "type": "node",
             "name": "vscode-jest-tests.v2.TeamA",
             "request": "launch",
             "args": [

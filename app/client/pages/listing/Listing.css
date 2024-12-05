@@ -1,0 +1,245 @@
+.listings-page {
+  min-height: 100vh;
+  background-color: #E8F0EB;
+}
+
+/* Header Styles */
+.listings-header {
+  background-color: #E8F0EB;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.header-content {
+  max-width: 1200px;
+ 
+  display: flex;
+  justify-content:left; 
+  padding-top:1em;
+  padding-left:44em;
+  
+}
+
+.logo-nav {
+  display: flex;
+  
+}
+
+.logo {
+  height:40px;
+  width:40px;
+  font-size:1.75em;
+  background-color: #729E84;
+  color: white;
+  
+  font-weight: bold;
+}
+
+nav {
+  display: flex;
+  
+}
+
+nav a {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+nav a.active {
+  color: #729E84;
+  padding-bottom: 0.25rem;
+  border-bottom: 2px solid #729E84;
+}
+
+.sign-up-button {
+  background-color: #729E84;
+  color: black;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+/* Hero Section Styles */
+.search-hero {
+  background-color: #729E84;
+  padding: 3rem 2rem;
+  text-align: center;
+  color: white;
+}
+
+.search-hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+}
+
+.search-input {
+  flex-grow: 1; /* Fills all available space in the container */
+  padding: 0.75rem; /* Adds inner spacing */
+  border: none;
+  font-size: 1rem;
+  box-sizing: border-box; /* Ensures padding doesn't cause overflow */
+}
+
+.search-button {
+  background-color: #729E84;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  flex-shrink: 0; /* Prevents the button from resizing */
+}
+
+/* Listings Section Styles */
+.listings-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.listing-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.listing-content {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.company-logo {
+  width: 64px;
+  height: 64px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+.listing-details h3 {
+  margin: 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.listing-details p {
+  margin: 0.25rem 0;
+  color: #666;
+}
+
+.listing-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.favorite-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #729E84;
+  cursor: pointer;
+  padding-left:.75em;
+}
+
+.apply-button {
+  background-color: #729E84;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.apply-button:hover {
+  background-color: #658875;
+}
+
+.listing-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Override existing Listing component styles */
+.listing-wrapper .listing-card {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+}
+
+.listing-wrapper .listing-title {
+  margin: 0;
+  color: #333;
+  font-size: 1.2rem;
+}
+
+.listing-wrapper .listing-description {
+  margin: 0.25rem 0;
+  color: #666;
+}
+
+/* Search bar overrides */
+.search-container .search-bar {
+  display: flex;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 4px;
+  padding: 0.5rem;
+}
+
+.search-container .search-bar input {
+  flex: 1;
+  padding: 0.75rem;
+  border: none;
+  font-size: 1rem;
+  background: none;
+}
+
+.search-container .search-bar button {
+  background-color: #729E84;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.listing-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.favorite-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #729E84;
+  cursor: pointer;
+}
+
+.apply-button {
+  background-color: #729E84;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.apply-button:hover {
+  background-color: #658875;
+} 

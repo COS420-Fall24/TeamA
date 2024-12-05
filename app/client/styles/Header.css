@@ -1,0 +1,61 @@
+.listings-header {
+    background-color: white;
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .logo-nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+  
+  .logo {
+    background-color: #729E84;
+    color: white;
+    padding: 0.5rem;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  nav {
+    display: flex;
+    gap: 2rem;
+  }
+  
+  nav a {
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    padding-bottom: 0.25rem;
+    border-bottom: 2px solid transparent;
+  }
+  
+  nav a:hover {
+    color: #729E84;
+  }
+  
+  nav a.active {
+    color: #729E84;
+    border-bottom: 2px solid #729E84;
+  }
+  
+  .sign-up-button {
+    background-color: #729E84;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  
+  .sign-up-button:hover {
+    background-color: #658875;
+  }

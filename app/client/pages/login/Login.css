@@ -1,0 +1,141 @@
+html, body {
+    margin: 0;
+    padding: 0;
+  }
+.login-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+}
+
+.login-left {
+    flex: 1;
+    background-color: #729E84; /* The sage green color from the design */
+}
+
+.login-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 400px;
+    
+    text-align: center;
+}
+
+.logo {
+    width: 80px;
+    height: 80px;
+    background-color: #729E84;
+    color: white;
+    font-size: 3.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+}
+
+.login-box h1 {
+    color: #729E84;
+    font-size: 2rem;
+    font-weight: normal;
+    margin-bottom: 2rem;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 2rem 0;
+    color:#729E84;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    
+    border-bottom: 1px solid #729E84;
+}
+
+.divider span {
+    padding: 0 1rem;
+}
+
+.login-box input {
+    width: 100%;
+    height: 3em;
+    border: none;
+    border-radius: 4px;
+    background-color: #E8F0EB; /* Light sage green for input backgrounds */
+    font-size: 1rem;
+    padding-left: 10px;
+}
+
+.login-box input::placeholder {
+    font-family: 'Georgia', serif;
+    color: #729E84;
+}
+
+.continue-button {
+    width: 100%;
+    padding: 1rem;
+    background-color: #729E84;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.continue-button:hover {
+    background-color: #658875;
+}
+
+.create-account {
+    margin-top: 1rem;
+    color: #666;
+}
+
+.create-account a {
+    color: #be89a6;
+    text-decoration: none;
+}
+
+.create-account a:hover {
+    text-decoration: underline;
+}
+
+/* Update the Google Sign In button styles */
+.google-button {
+    width: 100%;
+    padding: 0.75rem;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.google-button:hover {
+    background-color: #eaeaea;
+}
+
+.message {
+    color: #28a745;
+    margin-top: 1rem;
+}
+
+.error {
+    color: #dc3545;
+    margin-top: 1rem;
+}

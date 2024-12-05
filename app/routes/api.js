@@ -1,14 +1,11 @@
 const express = require('express');
-const { registerController } = require('../controller/register');
-const { loginController } = require('../controller/login');
+const verifyFirebaseToken = require('../middleware/auth');
+const { processPrompt } = require('../controller/gemini');
 
 const router = express.Router();
-router.post('/login', loginController);
-router.post('/register', registerController);
+
+router.post('/gemini', verifyFirebaseToken, processPrompt);
 
 module.exports = router;
-
-
-
 
 

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Listing from '../../components/Listing';
 import FirebaseService from '../../firebase/FirebaseService';
 import Header from '../../components/Header';
+import resources from './resources'
+import './Home.css';  // Make sure this path is correct
 
 const Home = () => {
   const navigate = useNavigate();

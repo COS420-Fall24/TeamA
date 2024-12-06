@@ -5,6 +5,7 @@ import Login from './pages/login/Login';
 import Home from './pages/home/Home';
 import Listings from './pages/listing/Listing';
 import JobListing from './pages/create-job/JobListing';
+import Mentors from './pages/mentors/Mentors';
 import ProtectedRoute from './components/ProtectedRoute';
 import './App.css';
 
@@ -26,14 +27,22 @@ function App() {
               <Listings />
             </ProtectedRoute>
           } />
-          <Route 
-            path="/create-job" 
+          <Route
+            path="/create-job"
             element={
               <ProtectedRoute>
                 <JobListing />
               </ProtectedRoute>
-            } 
+            }
           />
+          <Route
+            path="/mentors"
+            element={
+              <ProtectedRoute>
+              <Mentors />
+              </ProtectedRoute>
+            }
+         />
         </Routes>
       </div>
       <footer className="App-footer">

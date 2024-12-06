@@ -1,0 +1,50 @@
+.mentor-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  .mentor-name {
+    margin: 0;
+    color: #333;
+    font-size: 1.2rem;
+  }
+
+  .mentor-expertise {
+    margin: 0.25rem 0;
+    color: #666;
+    font-weight: 500;
+  }
+
+  .mentor-description {
+    margin: 0.25rem 0;
+    color: #666;
+  }
+
+  .request-mentor-btn {
+    background-color: #729E84;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .request-mentor-btn:hover {
+    background-color: #658875;
+  }
+
+  .mentor-item {
+    margin-bottom: 30px;
+  }
+
+  .mentor-item small {
+    display: block;
+    color: #666;
+    margin-top: 10px;
+  }

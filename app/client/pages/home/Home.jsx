@@ -1,72 +1,20 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Listing from '../../components/Listing';
-import FirebaseService from '../../firebase/FirebaseService';
+import React from 'react';
 import Header from '../../components/Header';
 import resources from './resources'
+import FirebaseService from '../../firebase/FirebaseService';
 import './Home.css';  // Make sure this path is correct
 
 const Home = () => {
-    const navigate = useNavigate();
-
-    const [listings, setListings] = useState([]);
-    const [userPrompt, setUserPrompt] = useState('');
-    const [geminiResponse, setGeminiResponse] = useState('');
-
-    
-    const handleRequest = async () => {
-        try {
-            const result = await FirebaseService.sendAuthenticatedRequest('gemini', {
-                prompt: userPrompt
-            });
-            setGeminiResponse(result.message);
-        } catch (error) {
-            console.error('Error sending prompt to backend:', error);
-            if (error.message.includes('must be authenticated')) {
-                navigate('/login');
-            }
-        }
-    };
-
+    const firstName = FirebaseService.getUserFullName().split(' ')[0];
     return (
         <div className="home-page">
             <div className="home-content">
                 <Header isLoggedIn={true} />
                 
                 <div className="hero-section">
-                    <h1>Welcome to EmpowerMaine!</h1>
+                    <h1>Welcome to EmpowerMaine, {firstName}!</h1>
                     <p>Let us help you find mentors and opportunities to help empower you to success</p>
                     <button className="learn-more-btn">Learn More</button>
-                </div>
-
-                <div className="ai-chat-section">
-                    <div className="prompt-container">
-                        <input
-                            type="text"
-                            value={userPrompt}
-                            onChange={(e) => setUserPrompt(e.target.value)}
-                            placeholder='Ask AI about finding jobs...'
-                            className="prompt-input"
-                        />
-                        <button onClick={handleRequest} className="prompt-button">Send Prompt</button>
-                    </div>
-
-                    {geminiResponse && (
-                        <div className="response-container">
-                            <h2>Gemini's Response:</h2>
-                            <p>{geminiResponse}</p>
-                        </div>
-                    )}
-
-                    <div className="listings-container">
-                        {listings.map((listing, index) => (
-                            <Listing
-                                key={index}
-                                name={listing.name}
-                                description={listing.description}
-                            />
-                        ))}
-                    </div>
                 </div>
 
                 <div className="resources-section">

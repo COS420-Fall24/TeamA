@@ -2,23 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import '../styles/Listing.css';
 
-const Listing = ({ name, description, expertise, type }) => {
-  return (
-    <div className="listing-card">
-      <h3 className="listing-title">{name}</h3>
-      {type === 'mentors' && expertise && (
-        <p className="listing-expertise">Expertise: {expertise}</p>
-      )}
-      <p className="listing-description">{description}</p>
-    </div>
-  );
-};
+function Listing({ name, description, expertise, type }) {
+    return (
+        <div className={`listing ${type}`}>
+            <h2>{name}</h2>
+            <p>{description}</p>
+            {type === 'mentor' && expertise && (
+                <p className="expertise">Expertise: {expertise}</p>
+            )}
+        </div>
+    );
+}
 
 Listing.propTypes = {
-  name: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  expertise: PropTypes.string,
-  type: PropTypes.oneOf(['jobs', 'mentors'])
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    expertise: PropTypes.string,
+    type: PropTypes.oneOf(['job', 'mentor']).isRequired
 };
 
 export default Listing; 

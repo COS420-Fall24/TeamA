@@ -4,11 +4,9 @@ import Register from './pages/register/Register';
 import Login from './pages/login/Login';
 import Home from './pages/home/Home';
 import Listings from './pages/listing/Listing';
-import JobListing from './pages/create-job/JobListing';
-import Mentors from './pages/mentors/Mentors';
+import CreateListing from './pages/create-listing/CreateListing';
 import ProtectedRoute from './components/ProtectedRoute';
 import ChatPopup from './components/ChatPopup/ChatPopup';
-import FirebaseService from './firebase/FirebaseService';
 import './App.css';
 
 
@@ -41,28 +39,19 @@ function AppWithRouter() {
             <Home />
           </ProtectedRoute>
         } />
-        <Route path="/jobs" element={
+        <Route path="/listings" element={
           <ProtectedRoute>
             <Listings />
           </ProtectedRoute>
         } />
         <Route
-          path="/create-job"
+          path="/create-listing"
           element={
             <ProtectedRoute>
-              <JobListing />
+              <CreateListing />
             </ProtectedRoute>
           }
-          />
-          <Route
-            path="/mentors"
-            element={
-              <ProtectedRoute>
-              <Mentors />
-              </ProtectedRoute>
-            }
-         />
-        
+        />
       </Routes>
       <footer className="App-footer">
         <p>© 2024 EmpowerMaine. All rights reserved.</p>

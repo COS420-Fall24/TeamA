@@ -17,16 +17,16 @@ const Header = ({ isLoggedIn = false }) => {
                 <Link to="/home" className={location.pathname === '/home' ? 'active' : ''}>
                   Home
                 </Link>
-                <Link to="/profile" className={location.pathname === '/profile' ? 'active' : ''}>
+                <Link to="#" className={location.pathname === '/profile' ? 'active' : ''}>
                   Profile
                 </Link>
-                <Link to="/jobs" className={location.pathname === '/jobs' ? 'active' : ''}>
-                  Jobs
+                <Link to="/listings" className={location.pathname === '/listings' ? 'active' : ''}>
+                  Listings
                 </Link>
-                <Link to="/mentors" className={location.pathname === '/mentors' ? 'active' : ''}>
-                  Mentors
+                <Link to="/create-listing" className={location.pathname === '/create-listing' ? 'active' : ''}>
+                  Create Listing
                 </Link>
-                <Link to="/messages" className={location.pathname === '/messages' ? 'active' : ''}>
+                <Link to="#" className={location.pathname === '/messages' ? 'active' : ''}>
                   Messages
                 </Link>
               </>

@@ -21,7 +21,7 @@ export const resources = [
   },
   {
       title: 'Skills Assessment',
-      description: 'Evaluate your technical and soft skills',
+      description: 'Evaluate your technical and soft skills with our quiz',
       image: '/path/to/placeholder-image.jpg'
   },
   {

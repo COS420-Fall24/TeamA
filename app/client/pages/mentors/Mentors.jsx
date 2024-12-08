@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ref as dbRef, push, get } from 'firebase/database';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { database } from '../../firebase/firebaseClient';
+import Header from '../../components/Header';
 import '../../styles/Auth.css';
 import Mentor from '../../components/Mentor';
 

@@ -7,7 +7,9 @@ import Listings from './pages/listing/Listing';
 import JobListing from './pages/create-job/JobListing';
 import ProtectedRoute from './components/ProtectedRoute';
 import ChatPopup from './components/ChatPopup/ChatPopup';
+import FirebaseService from './firebase/FirebaseService';
 import './App.css';
+
 
 function App() {
   return (

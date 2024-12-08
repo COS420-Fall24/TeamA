@@ -1,16 +1,18 @@
 import React from 'react';
 import Header from '../../components/Header';
 import resources from './resources'
+import FirebaseService from '../../firebase/FirebaseService';
 import './Home.css';  // Make sure this path is correct
 
 const Home = () => {
+    const firstName = FirebaseService.getUserFullName().split(' ')[0];
     return (
         <div className="home-page">
             <div className="home-content">
                 <Header isLoggedIn={true} />
                 
                 <div className="hero-section">
-                    <h1>Welcome to EmpowerMaine!</h1>
+                    <h1>Welcome to EmpowerMaine, {firstName}!</h1>
                     <p>Let us help you find mentors and opportunities to help empower you to success</p>
                     <button className="learn-more-btn">Learn More</button>
                 </div>

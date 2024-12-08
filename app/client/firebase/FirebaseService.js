@@ -120,6 +120,11 @@ export const FirebaseService = {
         } catch (error) {
             throw new Error(`Request failed: ${error.message}`);
         }
+    },
+
+    getUserFullName() {
+        const user = this.getCurrentUser();
+        return user?.displayName || 'Guest';
     }
 };
 

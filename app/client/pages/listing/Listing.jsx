@@ -13,6 +13,7 @@ function Listings() {
   const [selectedListing, setSelectedListing] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [appliedJobs, setAppliedJobs] = useState([]);
+  const [favorites, setFavorites] = useState(new Set());
   
   useEffect(() => {
     const unsubscribe = FirebaseService.checkAuth((user) => {
@@ -44,6 +45,14 @@ function Listings() {
     fetchJobs();
   }, []);
 
+  // Load favorites from localStorage on mount
+  useEffect(() => {
+    const savedFavorites = localStorage.getItem('favoriteJobs');
+    if (savedFavorites) {
+      setFavorites(new Set(JSON.parse(savedFavorites)));
+    }
+  }, []);
+
   const handleApply = async () => {
     if (!currentUser) {
       setError('Please log in to apply for jobs');
@@ -65,6 +74,20 @@ function Listings() {
     setListings(matches);
   };
 
+  const handleFavorite = (jobId) => {
+    setFavorites(prevFavorites => {
+      const newFavorites = new Set(prevFavorites);
+      if (newFavorites.has(jobId)) {
+        newFavorites.delete(jobId);
+      } else {
+        newFavorites.add(jobId);
+      }
+      // Save to localStorage
+      localStorage.setItem('favoriteJobs', JSON.stringify([...newFavorites]));
+      return newFavorites;
+    });
+  };
+
   return (
     <div className="listings-page">
       <Header isLoggedIn={true} />
@@ -82,6 +105,7 @@ function Listings() {
           <div 
             key={listing.id} 
             className="listing-wrapper"
+            onClick={() => setSelectedListing(listing)}
           >
             <Listing
               name={listing.jobName}
@@ -89,13 +113,23 @@ function Listings() {
             />
             <div className="listing-actions">
               <button 
-                className="favorite-button"
-                onClick={(e) => e.stopPropagation()}
-              >★</button>
+                className={`favorite-button ${favorites.has(listing.id) ? 'favorited' : ''}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleFavorite(listing.id);
+                }}
+              >
+                {favorites.has(listing.id) ? '★' : '☆'}
+              </button>
               <button 
                 className="apply-button"
-                onClick={() => setSelectedListing(listing)}
-              >Apply now</button>
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedListing(listing);
+                }}
+              >
+                Apply now
+              </button>
             </div>
           </div>
         ))}

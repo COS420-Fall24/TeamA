@@ -74,14 +74,14 @@
 }
 
 .job-actions .apply-button {
-  background: #007bff;
+  background: #658875;
   color: white;
   border: none;
   flex: 1;
 }
 
 .job-actions .apply-button:hover {
-  background: #0056b3;
+  background: #4e6859;
 }
 
 .apply-button.applied {

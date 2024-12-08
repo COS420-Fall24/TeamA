@@ -143,9 +143,17 @@ nav a.active {
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: #729E84;
   cursor: pointer;
-  padding-left:.75em;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.favorite-button.favorited {
+  color: #658875;
+}
+
+.favorite-button:hover {
+  color: #658875;
 }
 
 .apply-button {
@@ -227,8 +235,17 @@ nav a.active {
   background: none;
   border: none;
   font-size: 1.5rem;
-  color: #729E84;
   cursor: pointer;
+  color: #666;
+  transition: color 0.2s ease;
+}
+
+.favorite-button.favorited {
+  color: #658875;
+}
+
+.favorite-button:hover {
+  color: #658875;
 }
 
 .apply-button {

@@ -4,11 +4,13 @@ import SearchBar from '../../components/Search';
 import Listing from '../../components/Listing';
 import { FirebaseService } from '../../firebase/FirebaseService';
 import './Listing.css';
+import JobWindow from '../../components/JobWindow';
 
 function Listings() {
   const [listings, setListings] = useState([]);
   const [allListings, setAllListings] = useState([]);
   const [error, setError] = useState('');
+  const [selectedListing, setSelectedListing] = useState(null);
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -24,6 +26,12 @@ function Listings() {
 
     fetchListings();
   }, []);
+
+  const handleApply = () => {
+    console.log('Apply button clicked');
+    console.log(selectedListing);
+    setSelectedListing(null);
+  };
 
   const handleSearch = (matches) => {
     setListings(matches);
@@ -43,18 +51,35 @@ function Listings() {
       <div className="listings-container">
         {error && <p className="error">{error}</p>}
         {listings.map((listing) => (
-          <div key={listing.id} className="listing-wrapper">
+          <div 
+            key={listing.id} 
+            className="listing-wrapper"
+          >
             <Listing
               name={listing.jobName}
               description={listing.description}
             />
             <div className="listing-actions">
-              <button className="favorite-button">★</button>
-              <button className="apply-button">Apply now</button>
+              <button 
+                className="favorite-button"
+                onClick={(e) => e.stopPropagation()}
+              >★</button>
+              <button 
+                className="apply-button"
+                onClick={() => setSelectedListing(listing)}
+              >Apply now</button>
             </div>
           </div>
         ))}
       </div>
+
+      {selectedListing && (
+        <JobWindow 
+          listing={selectedListing} 
+          onClose={() => setSelectedListing(null)} 
+          onApply={handleApply}
+        />
+      )}
     </div>
   );
 }

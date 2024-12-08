@@ -3,55 +3,6 @@
   background-color: #E8F0EB;
 }
 
-/* Header Styles */
-.listings-header {
-  background-color: #E8F0EB;
-  padding: 1rem 2rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.header-content {
-  max-width: 1200px;
-
-  display: flex;
-  justify-content:left;
-  padding-top:1em;
-  padding-left:44em;
-
-}
-
-.logo-nav {
-  display: flex;
-
-}
-
-.logo {
-  height:40px;
-  width:40px;
-  font-size:1.75em;
-  background-color: #729E84;
-  color: white;
-
-  font-weight: bold;
-}
-
-nav {
-  display: flex;
-
-}
-
-nav a {
-  color: #333;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-nav a.active {
-  color: #729E84;
-  padding-bottom: 0.25rem;
-  border-bottom: 2px solid #729E84;
-}
-
 .sign-up-button {
   background-color: #719E89;
   color: black;

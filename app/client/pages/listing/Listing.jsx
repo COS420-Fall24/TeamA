@@ -5,6 +5,8 @@ import Listing from '../../components/Listing';
 import { FirebaseService } from '../../firebase/FirebaseService';
 import './Listing.css';
 import JobWindow from '../../components/JobWindow';
+import { ref as dbRef, get } from 'firebase/database';
+import { database } from '../../firebase/firebaseClient';
 
 function Listings() {
   const [listings, setListings] = useState([]);
@@ -14,13 +16,13 @@ function Listings() {
   const [currentUser, setCurrentUser] = useState(null);
   const [appliedJobs, setAppliedJobs] = useState([]);
   const [favorites, setFavorites] = useState(new Set());
-  const [sortBy, setSortBy] = useState('recent'); // 'recent', 'favorites', 'applied'
+  const [sortBy, setSortBy] = useState('recent');
+  const [listingType, setListingType] = useState('jobs');
 
   useEffect(() => {
     const unsubscribe = FirebaseService.checkAuth((user) => {
       setCurrentUser(user);
       if (user) {
-        // Fetch applied jobs when user logs in
         FirebaseService.getAppliedJobs(user.uid)
           .then(jobs => setAppliedJobs(jobs))
           .catch(err => console.error('Error fetching applied jobs:', err));
@@ -32,27 +34,52 @@ function Listings() {
   }, []);
 
   useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const jobs = await FirebaseService.getJobListings();
-        setListings(jobs);
-        setAllListings(jobs);
-      } catch (err) {
-        setError('Failed to fetch job listings');
-        console.error(err);
-      }
-    };
-
-    fetchJobs();
-  }, []);
-
-  // Load favorites from localStorage on mount
-  useEffect(() => {
     const savedFavorites = localStorage.getItem('favoriteJobs');
     if (savedFavorites) {
       setFavorites(new Set(JSON.parse(savedFavorites)));
     }
   }, []);
+
+  const fetchMentors = async () => {
+    try {
+      const mentorsRef = dbRef(database, 'mentors');
+      const snapshot = await get(mentorsRef);
+
+      if (snapshot.exists()) {
+        const mentorsData = snapshot.val();
+        const mentorsArray = Object.entries(mentorsData).map(([id, data]) => ({
+          id,
+          ...data
+        }));
+        setListings(mentorsArray);
+        setAllListings(mentorsArray);
+      } else {
+        setListings([]);
+        setAllListings([]);
+      }
+    } catch (error) {
+      setError('Error fetching mentors: ' + error.message);
+    }
+  };
+
+  useEffect(() => {
+    const fetchListings = async () => {
+      try {
+        if (listingType === 'jobs') {
+          const jobs = await FirebaseService.getJobListings();
+          setListings(jobs);
+          setAllListings(jobs);
+        } else {
+          await fetchMentors();
+        }
+      } catch (err) {
+        setError(`Failed to fetch ${listingType}`);
+        console.error(err);
+      }
+    };
+
+    fetchListings();
+  }, [listingType]);
 
   const handleApply = async () => {
     if (!currentUser) {
@@ -83,7 +110,6 @@ function Listings() {
       } else {
         newFavorites.add(jobId);
       }
-      // Save to localStorage
       localStorage.setItem('favoriteJobs', JSON.stringify([...newFavorites]));
       return newFavorites;
     });
@@ -91,24 +117,21 @@ function Listings() {
 
   const getSortedListings = () => {
     let filteredListings = [...listings];
-    
+
     switch (sortBy) {
       case 'favorites':
-        // Only show favorited listings
-        return filteredListings.filter(listing => 
+        return filteredListings.filter(listing =>
           favorites.has(listing.id)
         );
-      
+
       case 'applied':
-        // Only show applied listings
-        return filteredListings.filter(listing => 
+        return filteredListings.filter(listing =>
           appliedJobs.includes(listing.id)
         );
-      
+
       case 'recent':
       default:
-        // Show all listings sorted by date
-        return filteredListings.sort((a, b) => 
+        return filteredListings.sort((a, b) =>
           new Date(b.createdAt) - new Date(a.createdAt)
         );
     }
@@ -117,11 +140,24 @@ function Listings() {
   return (
     <div className="listings-page">
       <Header isLoggedIn={true} />
-
       <div className="search-hero">
-        <h1>Find your perfect Job or Internship</h1>
-        <SearchBar 
-          onSearch={handleSearch} 
+        <div className="listing-type-toggle">
+          <button
+            className={`toggle-button ${listingType === 'jobs' ? 'active' : ''}`}
+            onClick={() => setListingType('jobs')}
+          >
+            Jobs
+          </button>
+          <button
+            className={`toggle-button ${listingType === 'mentors' ? 'active' : ''}`}
+            onClick={() => setListingType('mentors')}
+          >
+            Mentors
+          </button>
+        </div>
+        <h1>Find your perfect {listingType === 'jobs' ? 'Job or Internship' : 'Mentor'}</h1>
+        <SearchBar
+          onSearch={handleSearch}
           allListings={allListings}
           sortBy={sortBy}
           onSortChange={setSortBy}
@@ -131,17 +167,19 @@ function Listings() {
       <div className="listings-container">
         {error && <p className="error">{error}</p>}
         {getSortedListings().map((listing) => (
-          <div 
-            key={listing.id} 
+          <div
+            key={listing.id}
             className="listing-wrapper"
             onClick={() => setSelectedListing(listing)}
           >
             <Listing
-              name={listing.jobName}
+              name={listingType === 'jobs' ? listing.jobName : listing.mentorName}
               description={listing.description}
+              expertise={listingType === 'mentors' ? listing.expertise : null}
+              type={listingType}
             />
             <div className="listing-actions">
-              <button 
+              <button
                 className={`favorite-button ${favorites.has(listing.id) ? 'favorited' : ''}`}
                 onClick={(e) => {
                   e.stopPropagation();
@@ -150,14 +188,14 @@ function Listings() {
               >
                 {favorites.has(listing.id) ? '★' : '☆'}
               </button>
-              <button 
+              <button
                 className="apply-button"
                 onClick={(e) => {
                   e.stopPropagation();
                   setSelectedListing(listing);
                 }}
               >
-                Apply now
+                {listingType === 'jobs' ? 'Apply now' : 'Request Mentor'}
               </button>
             </div>
           </div>
@@ -165,9 +203,9 @@ function Listings() {
       </div>
 
       {selectedListing && (
-        <JobWindow 
-          listing={selectedListing} 
-          onClose={() => setSelectedListing(null)} 
+        <JobWindow
+          listing={selectedListing}
+          onClose={() => setSelectedListing(null)}
           onApply={handleApply}
           isApplied={appliedJobs.includes(selectedListing.id)}
         />

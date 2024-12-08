@@ -7,21 +7,65 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s ease;
   }
-  
+
   .listing-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
-  
+
   .listing-title {
     margin: 0 0 8px 0;
     color: #333;
     font-size: 1.2rem;
   }
-  
+
   .listing-description {
     margin: 0;
     color: #666;
     font-size: 0.9rem;
     line-height: 1.4;
   }
+
+  .listing-type-toggle {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.toggle-button {
+    padding: 0.5rem 1.5rem;
+    border: 2px solid white;
+    background: transparent;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.toggle-button.active {
+    background: white;
+    color: #729E84;
+}
+
+.toggle-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.toggle-button.active:hover {
+    background: white;
+}
+
+.radio-group {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}

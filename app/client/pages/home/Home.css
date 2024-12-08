@@ -17,10 +17,11 @@
 /* Hero Section */
 .hero-section {
   text-align: center;
-  padding: 4rem 2rem;
+  padding: 4rem 0rem;
   background-color: #719E89;
   color: white;
   width: 100%;
+  
 }
 
 .hero-section h1 {

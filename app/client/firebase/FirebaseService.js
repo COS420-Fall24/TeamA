@@ -17,6 +17,11 @@ export const FirebaseService = {
         return this.auth.currentUser;
     },
 
+    getUserFullName() {
+        const user = this.getCurrentUser();
+        return user?.displayName || 'Guest';
+    },
+
     async getJobListings() {
         try {
             const jobsRef = dbRef(this.database, 'jobs');
@@ -149,10 +154,6 @@ export const FirebaseService = {
         }
     },
 
-    getUserFullName() {
-        const user = this.getCurrentUser();
-        return user.displayName;
-    }
 };
 
 export default FirebaseService; 

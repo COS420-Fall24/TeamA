@@ -1,35 +1,45 @@
-.listings-header {
-    background-color: white;
-    padding: 1rem 2rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  }
-  
-  .header-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .logo-nav {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-  }
+.header-content {
+  display: flex;
+  justify-content: center;
+  padding: 12px;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+}
+
+.header-content {
+  /* Add these properties */
+  display: grid;
+  grid-template-columns: 1fr;
+  /* Remove any auto margins if they exist */
+  /* Prevent content from stretching */
+  width: fit-content;
+}
+
+.logo-nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+  /* Remove any margin-left: auto if it exists */
+  margin: 0;
+}
   
   .logo {
-    background-color: #729E84;
+    background-color: #719E89;
     color: white;
-    padding: 0.5rem;
+    padding: 5px;
     font-weight: bold;
+    font-size: 2em;
     text-decoration: none;
   }
   
-  nav {
-    display: flex;
-    gap: 2rem;
-  }
+ /*Styles the navigation*/
+
   
   nav a {
     color: #333;

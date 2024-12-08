@@ -147,6 +147,11 @@ export const FirebaseService = {
             console.error('Error fetching applied jobs:', error);
             throw error;
         }
+    },
+
+    getUserFullName() {
+        const user = this.getCurrentUser();
+        return user.displayName;
     }
 };
 

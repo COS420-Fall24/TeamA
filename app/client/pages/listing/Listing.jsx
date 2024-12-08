@@ -14,7 +14,8 @@ function Listings() {
   const [currentUser, setCurrentUser] = useState(null);
   const [appliedJobs, setAppliedJobs] = useState([]);
   const [favorites, setFavorites] = useState(new Set());
-  
+  const [sortBy, setSortBy] = useState('recent'); // 'recent', 'favorites', 'applied'
+
   useEffect(() => {
     const unsubscribe = FirebaseService.checkAuth((user) => {
       setCurrentUser(user);
@@ -71,7 +72,7 @@ function Listings() {
   };
 
   const handleSearch = (matches) => {
-    setListings(matches);
+    setListings(matches.length > 0 ? matches : allListings);
   };
 
   const handleFavorite = (jobId) => {
@@ -88,20 +89,48 @@ function Listings() {
     });
   };
 
+  const getSortedListings = () => {
+    let filteredListings = [...listings];
+    
+    switch (sortBy) {
+      case 'favorites':
+        // Only show favorited listings
+        return filteredListings.filter(listing => 
+          favorites.has(listing.id)
+        );
+      
+      case 'applied':
+        // Only show applied listings
+        return filteredListings.filter(listing => 
+          appliedJobs.includes(listing.id)
+        );
+      
+      case 'recent':
+      default:
+        // Show all listings sorted by date
+        return filteredListings.sort((a, b) => 
+          new Date(b.createdAt) - new Date(a.createdAt)
+        );
+    }
+  };
+
   return (
     <div className="listings-page">
       <Header isLoggedIn={true} />
 
       <div className="search-hero">
         <h1>Find your perfect Job or Internship</h1>
-        <div className="search-container">
-          <SearchBar onSearch={handleSearch} allListings={allListings} />
-        </div>
+        <SearchBar 
+          onSearch={handleSearch} 
+          allListings={allListings}
+          sortBy={sortBy}
+          onSortChange={setSortBy}
+        />
       </div>
 
       <div className="listings-container">
         {error && <p className="error">{error}</p>}
-        {listings.map((listing) => (
+        {getSortedListings().map((listing) => (
           <div 
             key={listing.id} 
             className="listing-wrapper"

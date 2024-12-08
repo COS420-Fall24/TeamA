@@ -1,0 +1,90 @@
+.job-window-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.job-window {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 700px;
+  max-height: 85vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+.close-button {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  color: #666;
+  padding: 0.5rem;
+  line-height: 0.8;
+}
+
+.close-button:hover {
+  color: #333;
+}
+
+.job-window-content {
+  margin-top: 0.5rem;
+}
+
+.job-window-content h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.job-details {
+  margin-bottom: 2rem;
+}
+
+.job-details .description {
+  line-height: 1.6;
+  color: #555;
+}
+
+.job-actions {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #eee;
+}
+
+.job-actions button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.job-actions .apply-button {
+  background: #658875;
+  color: white;
+  border: none;
+  flex: 1;
+}
+
+.job-actions .apply-button:hover {
+  background: #4e6859;
+}
+
+.apply-button.applied {
+  opacity: 0.5;
+  cursor: not-allowed;
+} 

@@ -1,0 +1,82 @@
+.chat-popup-container {
+  position: fixed;
+  bottom: 30px; /* Keep the button fixed at the bottom */
+  right: 20px; /* Adjust to control the position relative to the right side */
+  z-index: 1000;
+}
+
+.chat-toggle-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.chat-toggle-button:focus {
+  outline: none;
+  border: none;
+}
+
+.chat-box {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px; /* Adds spacing from the toggle button */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  bottom: 100%; /* This positions the chat box above the toggle button */
+  right: 0; /* Aligns the chat box to the right of the toggle button */
+  width: 350px; /* Same width as the chat popup */
+}
+
+.chat-close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.chat-messages {
+  max-height: 500px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+.chat-message {
+  margin-bottom: 10px;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.user-message {
+  background-color: #e1f5fe;
+  padding-left: 10px;
+}
+
+.gemini-message {
+  background-color: #f1f1f1;
+  padding-left: 10px;
+}
+
+.chat-input {
+  width: calc(100% - 50px);
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+.chat-send-button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}

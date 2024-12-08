@@ -41,28 +41,19 @@ function AppWithRouter() {
             <Home />
           </ProtectedRoute>
         } />
-        <Route path="/jobs" element={
+        <Route path="/listings" element={
           <ProtectedRoute>
             <Listings />
           </ProtectedRoute>
         } />
         <Route
-          path="/create-job"
+          path="/create-listing"
           element={
             <ProtectedRoute>
               <JobListing />
             </ProtectedRoute>
           }
-          />
-          <Route
-            path="/mentors"
-            element={
-              <ProtectedRoute>
-              <Mentors />
-              </ProtectedRoute>
-            }
-         />
-        
+        />
       </Routes>
       <footer className="App-footer">
         <p>© 2024 EmpowerMaine. All rights reserved.</p>

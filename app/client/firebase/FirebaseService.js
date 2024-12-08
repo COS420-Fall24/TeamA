@@ -1,4 +1,4 @@
-import { ref as dbRef, push, get } from 'firebase/database';
+import { ref as dbRef, push, get, set } from 'firebase/database';
 import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, signInWithPopup } from 'firebase/auth';
 import { database } from './firebaseClient';
 import { GoogleAuthProvider } from 'firebase/auth';
@@ -119,6 +119,33 @@ export const FirebaseService = {
             return await response.json();
         } catch (error) {
             throw new Error(`Request failed: ${error.message}`);
+        }
+    },
+
+    async applyToJob(jobId, userId) {
+        try {
+            const jobApplicationRef = dbRef(this.database, `users/${userId}/applications/${jobId}`);
+            await set(jobApplicationRef, {
+                appliedAt: new Date().toISOString(),
+                status: 'pending'
+            });
+        } catch (error) {
+            console.error('Error applying to job:', error);
+            throw error;
+        }
+    },
+
+    async getAppliedJobs(userId) {
+        try {
+            const applicationsRef = dbRef(this.database, `users/${userId}/applications`);
+            const snapshot = await get(applicationsRef);
+            if (snapshot.exists()) {
+                return Object.keys(snapshot.val());
+            }
+            return [];
+        } catch (error) {
+            console.error('Error fetching applied jobs:', error);
+            throw error;
         }
     }
 };

@@ -1,7 +1,7 @@
 import React from 'react';
 import './JobWindow.css';
 
-function JobWindow({ listing, onClose, onApply }) {
+function JobWindow({ listing, onClose, onApply, isApplied }) {
   return (
     <div className="job-window-overlay">
       <div className="job-window">
@@ -11,11 +11,16 @@ function JobWindow({ listing, onClose, onApply }) {
           <h2>{listing.jobName}</h2>
           <div className="job-details">
             <p className="description">{listing.description}</p>
-            {/* Add more job details as needed */}
           </div>
           
           <div className="job-actions">
-            <button className="apply-button" onClick={onApply}>Apply now</button>
+            <button 
+              className={`apply-button ${isApplied ? 'applied' : ''}`} 
+              onClick={onApply}
+              disabled={isApplied}
+            >
+              {isApplied ? 'Already applied' : 'Apply now'}
+            </button>
           </div>
         </div>
       </div>

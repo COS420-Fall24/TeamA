@@ -82,4 +82,9 @@
 
 .job-actions .apply-button:hover {
   background: #0056b3;
+}
+
+.apply-button.applied {
+  opacity: 0.5;
+  cursor: not-allowed;
 } 

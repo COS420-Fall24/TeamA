@@ -11,26 +11,54 @@ function Listings() {
   const [allListings, setAllListings] = useState([]);
   const [error, setError] = useState('');
   const [selectedListing, setSelectedListing] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [appliedJobs, setAppliedJobs] = useState([]);
+  
+  useEffect(() => {
+    const unsubscribe = FirebaseService.checkAuth((user) => {
+      setCurrentUser(user);
+      if (user) {
+        // Fetch applied jobs when user logs in
+        FirebaseService.getAppliedJobs(user.uid)
+          .then(jobs => setAppliedJobs(jobs))
+          .catch(err => console.error('Error fetching applied jobs:', err));
+      } else {
+        setAppliedJobs([]);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
-    const fetchListings = async () => {
+    const fetchJobs = async () => {
       try {
         const jobs = await FirebaseService.getJobListings();
+        setListings(jobs);
         setAllListings(jobs);
-        setListings(jobs); // Initially show all listings
       } catch (err) {
-        setError('Failed to fetch listings');
+        setError('Failed to fetch job listings');
         console.error(err);
       }
     };
 
-    fetchListings();
+    fetchJobs();
   }, []);
 
-  const handleApply = () => {
-    console.log('Apply button clicked');
-    console.log(selectedListing);
-    setSelectedListing(null);
+  const handleApply = async () => {
+    if (!currentUser) {
+      setError('Please log in to apply for jobs');
+      return;
+    }
+
+    try {
+      await FirebaseService.applyToJob(selectedListing.id, currentUser.uid);
+      setAppliedJobs([...appliedJobs, selectedListing.id]);
+      console.log(`Successfully applied to job: ${selectedListing.jobName}`);
+      setSelectedListing(null);
+    } catch (err) {
+      setError('Failed to apply to job');
+      console.error(err);
+    }
   };
 
   const handleSearch = (matches) => {
@@ -78,6 +106,7 @@ function Listings() {
           listing={selectedListing} 
           onClose={() => setSelectedListing(null)} 
           onApply={handleApply}
+          isApplied={appliedJobs.includes(selectedListing.id)}
         />
       )}
     </div>

@@ -13,15 +13,15 @@ const ChatPopup = () => {
 
   const handleSendPrompt = async (prompt) => {
 
-    //instructions for gemini
-    const initalMessage = "You are a helpful AI chatbot assistant that will assist job seekers on our website 'EmpowerMaine' discover job listings, apply to listings, etc. You will suggest helpful resources and assist the user with site functionality.";
+    // Instructions for Gemini
+    const initialMessage = "You are a helpful AI chatbot assistant that will assist job seekers on our website 'EmpowerMaine' discover job listings, apply to listings, etc. You will suggest helpful resources and assist the user with site functionality.";
     
     // Add user's prompt to chat history
     const newChatHistory = [...chatHistory, { sender: 'You', message: prompt }];
     setChatHistory(newChatHistory);
 
     try {
-      const result = await FirebaseService.sendAuthenticatedRequest('gemini', { prompt: initalMessage + "\n" + prompt });
+      const result = await FirebaseService.sendAuthenticatedRequest('gemini', { prompt: initialMessage + "\n" + prompt });
       // Add Gemini's response to chat history
       setChatHistory([...newChatHistory, { sender: 'Gemini', message: result.message }]);
     } catch (error) {
@@ -40,10 +40,10 @@ const ChatPopup = () => {
       {isOpen && (
         <div className="chat-box">
           <button className="chat-close-button" onClick={toggleChat}>-</button>
-          <h3>Chat with Gemini</h3>
+          <h3>Chat with AI</h3>
           <div className="chat-messages">
             {chatHistory.length === 0 ? (
-              <p>No conversation yet. Ask something!</p>
+              <p>No conversation yet. Ask job related questions!</p>
             ) : (
               chatHistory.map((chat, index) => (
                 <div key={index} className={`chat-message ${chat.sender === 'You' ? 'user-message' : 'gemini-message'}`}>
@@ -64,8 +64,11 @@ const ChatPopup = () => {
           </button>
         </div>
       )}
-      <button className="chat-toggle-button" onClick={toggleChat}>
-        {isOpen ? '' : 'Chat with AI'}
+      <button 
+        className={`chat-toggle-button ${isOpen ? 'shrink' : ''}`} 
+        onClick={toggleChat}
+      >
+        {isOpen ? '' : <img src="./public/ai-language-model.png" alt="Chat" className="chat-icon" />}
       </button>
     </div>
   );

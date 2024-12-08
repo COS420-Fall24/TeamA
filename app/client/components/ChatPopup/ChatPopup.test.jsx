@@ -1,39 +1,44 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
-import ChatPopup from './ChatPopup'; // Adjust the import path as needed
+import ChatPopup from './ChatPopup';
 
 describe('ChatPopup Component', () => {
 
-  it('should open the chatbox when the "Chat with AI" button is clicked', () => {
+  it('should open the chatbox and show the initial message when clicked', () => {
     render(<ChatPopup />);
 
-    // Initially, "Chat with Gemini" should not be visible because the chatbox is closed
-    expect(screen.getByText('Chat with AI')).toBeInTheDocument();  // Chat with AI should be visible
-    expect(screen.queryByRole('textbox')).not.toBeInTheDocument();  // Chat input is not visible initially
+    // Initially, the chatbox should be closed
+    expect(screen.queryByRole('textbox')).not.toBeInTheDocument();  // Chat input should not be visible initially
 
-    // Click the "Chat with AI" button to open the chatbox
-    fireEvent.click(screen.getByText('Chat with AI'));
+    // Click the AI image to open the chatbox
+    fireEvent.click(screen.getByAltText('Chat'));  // Look for the image by its alt text
 
-    // After clicking, the chatbox should be visible
-    expect(screen.getByText('Chat with Gemini')).toBeInTheDocument();  // Chat title should appear now
-    expect(screen.getByRole('textbox')).toBeInTheDocument();  // Chat input should be visible now
+    // After opening the chatbox, check that the initial message is displayed
+    expect(screen.getByText('No conversation yet. Ask job related questions!')).toBeInTheDocument();
   });
 
-  it('should display "Chat with AI" when the chatbox is closed or minimized', () => {
+  it('should minimize the chatbox when the "-" button is clicked', () => {
     render(<ChatPopup />);
 
-    // Ensure the "Chat with AI" button is visible when the chatbox is closed
+    // Initially, the chatbox should be closed
+    expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
+
+    // Open the chatbox by clicking the AI image
+    fireEvent.click(screen.getByAltText('Chat'));
+
+    // After clicking, ensure the chatbox is visible
     expect(screen.getByText('Chat with AI')).toBeInTheDocument();
+    expect(screen.getByRole('textbox')).toBeInTheDocument();  // Chat input should be visible now
 
-    // Open the chatbox by clicking on the "Chat with AI" button
-    fireEvent.click(screen.getByText('Chat with AI'));
-
-    // Now close the chatbox
+    // Click the "-" button to minimize the chatbox
     fireEvent.click(screen.getByText('-'));
 
-    // After minimizing, "Chat with AI" button should appear again
-    expect(screen.getByText('Chat with AI')).toBeInTheDocument();
-    expect(screen.queryByRole('textbox')).not.toBeInTheDocument();  // Ensure the chat input is not visible
+    // After minimizing, check that the chat input is no longer visible
+    expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
+    
+    // Check that the chatbox is not visible anymore; the toggle button should still be there
+    expect(screen.queryByText('Chat with AI')).not.toBeInTheDocument();
+    expect(screen.getByAltText('Chat')).toBeInTheDocument();  // AI image should still be visible as toggle button
   });
 
 });

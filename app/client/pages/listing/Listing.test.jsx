@@ -8,12 +8,12 @@ describe('Listings Component', () => {
   const mockListings = [
     {
       id: '1',
-      jobName: 'Software Engineer',
+      name: 'Software Engineer',
       description: 'Full-stack developer position'
     },
     {
       id: '2',
-      jobName: 'Product Manager',
+      name: 'Product Manager',
       description: 'Technical product management role'
     }
   ];
@@ -30,8 +30,8 @@ describe('Listings Component', () => {
     renderWithRouter(<Listings />);
 
     await waitFor(() => {
-      expect(screen.getByText('Software Engineer')).toBeInTheDocument();
-      expect(screen.getByText('Product Manager')).toBeInTheDocument();
+      expect(screen.getByText('Full-stack developer position')).toBeInTheDocument();
+      expect(screen.getByText('Technical product management role')).toBeInTheDocument();
     });
 
     expect(FirebaseService.getJobListings).toHaveBeenCalledTimes(1);
@@ -43,7 +43,7 @@ describe('Listings Component', () => {
     renderWithRouter(<Listings />);
 
     await waitFor(() => {
-      expect(screen.getByText('Failed to fetch listings')).toBeInTheDocument();
+      expect(screen.getByText('Failed to fetch job listings')).toBeInTheDocument();
     });
   });
 
@@ -51,28 +51,47 @@ describe('Listings Component', () => {
     renderWithRouter(<Listings />);
 
     await waitFor(() => {
-      expect(screen.getByText('Software Engineer')).toBeInTheDocument();
+      expect(screen.getByText('Full-stack developer position')).toBeInTheDocument();
     });
 
     const searchBar = screen.getByPlaceholderText('Search listings...');
-    fireEvent.change(searchBar, { target: { value: 'Software' } });
-    fireEvent.submit(searchBar.closest('form'));
-
+    fireEvent.change(searchBar, { target: { value: 'Full-stack' } });
+    fireEvent.click(screen.getByText('Search'));
+    
     await waitFor(() => {
-      expect(screen.getByText('Software Engineer')).toBeInTheDocument();
-      expect(screen.queryByText('Product Manager')).not.toBeInTheDocument();
+      expect(screen.getByText('Full-stack developer position')).toBeInTheDocument();
+      expect(screen.queryByText('Technical product management role')).not.toBeInTheDocument();
     });
   });
 
-  it('should render action buttons for each listing', async () => {
+  it('should sort listings by recently posted', async () => {
     renderWithRouter(<Listings />);
 
+    const sortSelect = screen.getByRole('combobox');
+    fireEvent.change(sortSelect, { target: { value: 'recent' } });
+    
     await waitFor(() => {
-      const favoriteButtons = screen.getAllByText('★');
-      const applyButtons = screen.getAllByText('Apply now');
-      
-      expect(favoriteButtons).toHaveLength(2);
-      expect(applyButtons).toHaveLength(2);
+      const listings = document.getElementsByClassName('listing-wrapper');
+      expect(listings[0]).toHaveTextContent('Full-stack developer position');
+      expect(listings[1]).toHaveTextContent('Technical product management role');
     });
+  });
+
+  it('should sort listings by favorites', async () => {
+    // Mock localStorage
+    const mockLocalStorage = {
+      getItem: jest.fn().mockReturnValue(JSON.stringify(['2'])), // ID of the Product Manager listing
+    };
+    Object.defineProperty(window, 'localStorage', { value: mockLocalStorage });
+
+    FirebaseService.getJobListings.mockResolvedValueOnce(mockListings);
+    renderWithRouter(<Listings />);
+
+    const sortSelect = screen.getByRole('combobox');
+    fireEvent.change(sortSelect, { target: { value: 'favorites' } });
+    
+    await waitFor(() => {
+      const listings = document.getElementsByClassName('listing-wrapper');
+      expect(listings[0]).toHaveTextContent('Technical product management role');    });
   });
 }); 

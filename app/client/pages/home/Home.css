@@ -1,0 +1,233 @@
+/* Page Layout */
+.home-page {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.home-content {
+  margin: 0 auto;
+}
+
+.home-content h1 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+/* Hero Section */
+.hero-section {
+  text-align: center;
+  padding: 4rem 0rem;
+  background-color: #719E89;
+  color: white;
+  width: 100%;
+  
+}
+
+.hero-section h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.hero-section p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+}
+
+/* AI Chat Section */
+.ai-chat-section {
+  margin: 2rem auto 3rem;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  max-width: 1200px;
+}
+
+.prompt-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.prompt-input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.prompt-button {
+  padding: 0.75rem 1.5rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.prompt-button:hover {
+  background-color: #0056b3;
+}
+
+.response-container {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+/* Listings Section */
+.listings-section {
+  margin-bottom: 3rem;
+}
+
+.listings-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Resources Section */
+.resources-section {
+  padding: 2rem;
+  background-color: #E8F4F0;
+  margin: 2rem auto 3rem;
+  max-width: 1200px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 2rem;
+}
+
+.section-header h2 {
+  color: #333;
+  font-size: 1.8rem;
+}
+
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 2rem;
+  padding: 0 2rem;
+}
+
+.resource-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.resource-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.card-content h3 {
+  color: #333;
+  font-size: 1.4rem;
+}
+
+.card-content p {
+  color: #666;
+  line-height: 1.5;
+}
+
+.image-placeholder {
+  width: 100%;
+  height: 150px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
+
+/* Buttons */
+.read-more-btn {
+  border: 1px solid #719E89;
+  background: none;
+  color: #719E89;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.read-more-btn:hover {
+  background-color: #719E89;
+  color: white;
+}
+
+.see-more-btn {
+  display: block;
+  margin: 2rem auto;
+  background-color: #3D5A4C;
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.see-more-btn:hover {
+  background-color: #2c4238;
+}
+
+.learn-more-btn {
+  background-color: #3D5A4C;
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 4px;
+  margin-top: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.learn-more-btn:hover {
+  background-color: #2c4238;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .resources-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .home-content {
+    padding: 1rem;
+  }
+
+  .resources-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .prompt-container {
+    flex-direction: column;
+  }
+
+  .prompt-button {
+    width: 100%;
+  }
+}

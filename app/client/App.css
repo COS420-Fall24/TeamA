@@ -1,8 +1,9 @@
 /*Styles the container element for the app*/
 .App {
-  text-align: flex-start;
+  text-align: center;
   font-family: 'Georgia', serif;
   background-color: white;
+  
 }
 
 /*Styles the header section*/
@@ -17,6 +18,18 @@
   color: white;
   padding:  20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.centered-content h1 {
+  font-size: 3rem; /* Large font size for EmpowerMaine */
+  color: #079528; /* Matches the header color for a cohesive look */
+  margin: 0;
+}
+
+.centered-content p {
+  font-size: 1.25rem; /* Smaller font for subtext */
+  color: #555; /* Subdued text color */
+  margin-top: 10px;
 }
 
 /*Styles EmpowerMaine at the top of homepage*/

@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Header from '../../components/Header';
 import SearchBar from '../../components/Search';
 import Listing from '../../components/Listing';
 import { FirebaseService } from '../../firebase/FirebaseService';
 import './Listing.css';
 import JobWindow from '../../components/JobWindow';
-import { ref as dbRef, get } from 'firebase/database';
-import { database } from '../../firebase/firebaseClient';
 
 function Listings() {
   const [listings, setListings] = useState([]);
@@ -17,21 +15,21 @@ function Listings() {
   const [appliedJobs, setAppliedJobs] = useState([]);
   const [favorites, setFavorites] = useState(new Set());
   const [sortBy, setSortBy] = useState('recent');
-  const [listingType, setListingType] = useState('jobs');
+  const [listingType, setListingType] = useState('job');
 
   useEffect(() => {
     const unsubscribe = FirebaseService.checkAuth((user) => {
       setCurrentUser(user);
       if (user) {
-        FirebaseService.getAppliedJobs(user.uid)
-          .then(jobs => setAppliedJobs(jobs))
-          .catch(err => console.error('Error fetching applied jobs:', err));
+        FirebaseService.getAppliedListings(listingType, user.uid)
+          .then(listings => setAppliedJobs(listings))
+          .catch(err => console.error('Error fetching applied listings:', err));
       } else {
         setAppliedJobs([]);
       }
     });
     return () => unsubscribe();
-  }, []);
+  }, [listingType]);
 
   useEffect(() => {
     const savedFavorites = localStorage.getItem('favoriteJobs');
@@ -40,40 +38,15 @@ function Listings() {
     }
   }, []);
 
-  const fetchMentors = async () => {
-    try {
-      const mentorsRef = dbRef(database, 'mentors');
-      const snapshot = await get(mentorsRef);
-
-      if (snapshot.exists()) {
-        const mentorsData = snapshot.val();
-        const mentorsArray = Object.entries(mentorsData).map(([id, data]) => ({
-          id,
-          ...data
-        }));
-        setListings(mentorsArray);
-        setAllListings(mentorsArray);
-      } else {
-        setListings([]);
-        setAllListings([]);
-      }
-    } catch (error) {
-      setError('Error fetching mentors: ' + error.message);
-    }
-  };
-
   useEffect(() => {
     const fetchListings = async () => {
       try {
-        if (listingType === 'jobs') {
-          const jobs = await FirebaseService.getJobListings();
-          setListings(jobs);
-          setAllListings(jobs);
-        } else {
-          await fetchMentors();
-        }
+        const listings = await FirebaseService.getListings(listingType);
+        console.log('Fetched listings:', listings);
+        setListings(listings);
+        setAllListings(listings);
       } catch (err) {
-        setError(`Failed to fetch ${listingType}`);
+        setError(`Failed to fetch ${listingType}s`);
         console.error(err);
       }
     };
@@ -83,24 +56,30 @@ function Listings() {
 
   const handleApply = async () => {
     if (!currentUser) {
-      setError('Please log in to apply for jobs');
+      setError('Please log in to apply');
       return;
     }
 
     try {
-      await FirebaseService.applyToJob(selectedListing.id, currentUser.uid);
+      await FirebaseService.applyToListing(listingType, selectedListing.id, currentUser.uid);
       setAppliedJobs([...appliedJobs, selectedListing.id]);
-      console.log(`Successfully applied to job: ${selectedListing.jobName}`);
+      console.log(`Successfully applied to ${listingType}: ${selectedListing.name}`);
       setSelectedListing(null);
     } catch (err) {
-      setError('Failed to apply to job');
+      setError(`Failed to apply to ${listingType}`);
       console.error(err);
     }
   };
 
-  const handleSearch = (matches) => {
-    setListings(matches.length > 0 ? matches : allListings);
-  };
+  const handleSearch = useCallback((matches) => {
+    if (!matches || matches.length === 0) {
+      const currentTypeListings = allListings.filter(listing => listing.type === listingType);
+      setListings(currentTypeListings);
+    } else {
+      const filteredMatches = matches.filter(listing => listing.type === listingType);
+      setListings(filteredMatches);
+    }
+  }, [allListings, listingType]);
 
   const handleFavorite = (jobId) => {
     setFavorites(prevFavorites => {
@@ -115,27 +94,24 @@ function Listings() {
     });
   };
 
-  const getSortedListings = () => {
-    let filteredListings = [...listings];
-
-    switch (sortBy) {
-      case 'favorites':
-        return filteredListings.filter(listing =>
-          favorites.has(listing.id)
-        );
-
-      case 'applied':
-        return filteredListings.filter(listing =>
-          appliedJobs.includes(listing.id)
-        );
-
-      case 'recent':
-      default:
-        return filteredListings.sort((a, b) =>
-          new Date(b.createdAt) - new Date(a.createdAt)
-        );
-    }
-  };
+  const getSortedListings = useCallback(() => {
+    return listings
+      .filter(listing => listing && (listing.name || listing.jobTitle))
+      .sort((a, b) => {
+        switch (sortBy) {
+          case 'name':
+            return (a.name || a.jobTitle || '').localeCompare(b.name || b.jobTitle || '');
+          case 'recent':
+            return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+          case 'favorites':
+            return favorites.has(b.id) - favorites.has(a.id);
+          case 'applied':
+            return appliedJobs.includes(b.id) - appliedJobs.includes(a.id);
+          default:
+            return 0;
+        }
+      });
+  }, [listings, sortBy, favorites, appliedJobs]);
 
   return (
     <div className="listings-page">
@@ -143,19 +119,19 @@ function Listings() {
       <div className="search-hero">
         <div className="listing-type-toggle">
           <button
-            className={`toggle-button ${listingType === 'jobs' ? 'active' : ''}`}
-            onClick={() => setListingType('jobs')}
+            className={`toggle-button ${listingType === 'job' ? 'active' : ''}`}
+            onClick={() => setListingType('job')}
           >
             Jobs
           </button>
           <button
-            className={`toggle-button ${listingType === 'mentors' ? 'active' : ''}`}
-            onClick={() => setListingType('mentors')}
+            className={`toggle-button ${listingType === 'mentor' ? 'active' : ''}`}
+            onClick={() => setListingType('mentor')}
           >
             Mentors
           </button>
         </div>
-        <h1>Find your perfect {listingType === 'jobs' ? 'Job or Internship' : 'Mentor'}</h1>
+        <h1>Find your perfect {listingType === 'job' ? 'Job or Internship' : 'Mentor'}</h1>
         <SearchBar
           onSearch={handleSearch}
           allListings={allListings}
@@ -166,40 +142,43 @@ function Listings() {
 
       <div className="listings-container">
         {error && <p className="error">{error}</p>}
-        {getSortedListings().map((listing) => (
-          <div
-            key={listing.id}
-            className="listing-wrapper"
-            onClick={() => setSelectedListing(listing)}
-          >
-            <Listing
-              name={listingType === 'jobs' ? listing.jobName : listing.mentorName}
-              description={listing.description}
-              expertise={listingType === 'mentors' ? listing.expertise : null}
-              type={listingType}
-            />
-            <div className="listing-actions">
-              <button
-                className={`favorite-button ${favorites.has(listing.id) ? 'favorited' : ''}`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleFavorite(listing.id);
-                }}
-              >
-                {favorites.has(listing.id) ? '★' : '☆'}
-              </button>
-              <button
-                className="apply-button"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setSelectedListing(listing);
-                }}
-              >
-                {listingType === 'jobs' ? 'Apply now' : 'Request Mentor'}
-              </button>
+        {getSortedListings().map((listing) => {  
+          console.log('Rendering listing:', listing);        
+          return (
+            <div
+              key={listing.id}
+              className="listing-wrapper"
+              onClick={() => setSelectedListing(listing)}
+            >
+              <Listing
+                name={listing.name || listing.jobTitle}
+                description={listing.description}
+                expertise={listing.type === 'mentor' ? listing.expertise : null}
+                type={listing.type}
+              />
+              <div className="listing-actions">
+                <button
+                  className={`favorite-button ${favorites.has(listing.id) ? 'favorited' : ''}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleFavorite(listing.id);
+                  }}
+                >
+                  {favorites.has(listing.id) ? '★' : '☆'}
+                </button>
+                <button
+                  className="apply-button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedListing(listing);
+                  }}
+                >
+                  {listingType === 'job' ? 'Apply now' : 'Request Mentor'}
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       {selectedListing && (

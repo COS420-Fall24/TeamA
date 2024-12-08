@@ -22,47 +22,50 @@ export const FirebaseService = {
         return user?.displayName || 'Guest';
     },
 
-    async getJobListings() {
+    async getListings(type = 'job') {
         try {
-            const jobsRef = dbRef(this.database, 'jobs');
-            const snapshot = await get(jobsRef);
+            const listingsRef = dbRef(this.database, 'listings');
+            const snapshot = await get(listingsRef);
 
             if (snapshot.exists()) {
-                const jobsData = snapshot.val();
-                return Object.entries(jobsData).map(([id, data]) => ({
-                    id,
-                    ...data
-                }));
+                const listingsData = snapshot.val();
+                return Object.entries(listingsData)
+                    .map(([id, data]) => ({
+                        id,
+                        ...data
+                    }))
+                    .filter(listing => !type || listing.type === type);
             }
             return [];
         } catch (error) {
-            throw new Error(`Error fetching jobs: ${error.message}`);
+            throw new Error(`Error fetching listings: ${error.message}`);
         }
     },
 
-    async saveJobListing(jobData) {
+    async saveListing(type = 'job', listingData) {
         const user = this.getCurrentUser();
         if (!user) {
-            throw new Error('User must be authenticated to save jobs');
+            throw new Error('User must be authenticated to save listings');
         }
 
-        if (!jobData.jobName || !jobData.description) {
-            throw new Error('Job name and description are required');
+        if (!listingData.name || !listingData.description) {
+            throw new Error('Name and description are required');
         }
 
         try {
-            const jobsRef = dbRef(this.database, 'jobs');
-            const newJob = {
-                ...jobData,
+            const listingsRef = dbRef(this.database, 'listings');
+            const newListing = {
+                ...listingData,
+                type,
                 createdAt: new Date().toISOString(),
                 userId: user.uid,
                 userEmail: user.email
             };
 
-            const result = await push(jobsRef, newJob);
+            const result = await push(listingsRef, newListing);
             return result.key;
         } catch (error) {
-            throw new Error(`Error saving job: ${error.message}`);
+            throw new Error(`Error saving listing: ${error.message}`);
         }
     },
 
@@ -127,29 +130,33 @@ export const FirebaseService = {
         }
     },
 
-    async applyToJob(jobId, userId) {
+    async applyToListing(type = 'job', listingId, userId) {
         try {
-            const jobApplicationRef = dbRef(this.database, `users/${userId}/applications/${jobId}`);
-            await set(jobApplicationRef, {
+            const applicationRef = dbRef(this.database, `users/${userId}/applications/listings/${listingId}`);
+            await set(applicationRef, {
                 appliedAt: new Date().toISOString(),
-                status: 'pending'
+                status: 'pending',
+                type
             });
         } catch (error) {
-            console.error('Error applying to job:', error);
+            console.error(`Error applying to listing:`, error);
             throw error;
         }
     },
 
-    async getAppliedJobs(userId) {
+    async getAppliedListings(type = 'job', userId) {
         try {
-            const applicationsRef = dbRef(this.database, `users/${userId}/applications`);
+            const applicationsRef = dbRef(this.database, `users/${userId}/applications/listings`);
             const snapshot = await get(applicationsRef);
             if (snapshot.exists()) {
-                return Object.keys(snapshot.val());
+                const applications = snapshot.val();
+                return Object.entries(applications)
+                    .filter(([_, data]) => !type || data.type === type)
+                    .map(([id]) => id);
             }
             return [];
         } catch (error) {
-            console.error('Error fetching applied jobs:', error);
+            console.error(`Error fetching applied listings:`, error);
             throw error;
         }
     },

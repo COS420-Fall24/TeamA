@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import Header from '../../components/Header';
 import FirebaseService from '../../firebase/FirebaseService';
 import '../../styles/CreateListing.css';
 import '../../styles/Auth.css';
 
-function JobListing() {
+function CreateListing() {
     const [listingName, setListingName] = useState('');
     const [description, setDescription] = useState('');
     const [listingType, setListingType] = useState('job');
@@ -27,23 +28,11 @@ function JobListing() {
                 name: listingName,
                 description,
                 ...(listingType === 'mentor' && { expertise }),
-                createdAt: new Date().toISOString()
             };
 
-            if (listingType === 'job') {
-                await FirebaseService.saveJobListing({
-                    jobName: listingName,
-                    description: description
-                });
-            } else {
-                await FirebaseService.saveMentorListing({
-                    mentorName: listingName,
-                    expertise: expertise,
-                    description: description
-                });
-            }
+            await FirebaseService.saveListing(listingType, listingData);
 
-            setMessage(`${listingType === 'job' ? 'Job' : 'Mentor'} "${listingName}" saved successfully.`);
+            setMessage(`${listingType === 'job' ? 'Job' : 'Mentor'} listing "${listingName}" saved successfully.`);
             setError('');
             setListingName('');
             setDescription('');
@@ -54,7 +43,9 @@ function JobListing() {
     };
 
     return (
-        <div className="create-listing-container">
+        <div className="create-listing-page">
+            <Header isLoggedIn={true} />
+            <div className="create-listing-container">
             <h2 className="create-listing-header">Create New Listing</h2>
 
             {message && <p className="message success-message" role="alert">{message}</p>}
@@ -125,9 +116,10 @@ function JobListing() {
 
             <button className="save-button" type="button" onClick={saveListing}>
                 Save {listingType === 'job' ? 'Job' : 'Mentor'} Listing
-            </button>
+                </button>
+            </div>
         </div>
     );
 }
 
-export default JobListing;
+export default CreateListing;

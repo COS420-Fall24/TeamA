@@ -12,17 +12,17 @@
 
 .header-content {
   max-width: 1200px;
- 
+
   display: flex;
-  justify-content:left; 
+  justify-content:left;
   padding-top:1em;
   padding-left:44em;
-  
+
 }
 
 .logo-nav {
   display: flex;
-  
+
 }
 
 .logo {
@@ -31,13 +31,13 @@
   font-size:1.75em;
   background-color: #729E84;
   color: white;
-  
+
   font-weight: bold;
 }
 
 nav {
   display: flex;
-  
+
 }
 
 nav a {
@@ -257,4 +257,48 @@ nav a.active {
   outline: none;
   border-color: #658875;
   box-shadow: 0 0 0 2px rgba(101, 136, 117, 0.1);
-} 
+}
+
+.listing-type-toggle {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.toggle-button {
+  padding: 0.5rem 1.5rem;
+  border: 2px solid white;
+  background: transparent;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.toggle-button.active {
+  background: white;
+  color: #729E84;
+}
+
+.toggle-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.toggle-button.active:hover {
+  background: white;
+}
+
+.radio-group {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}

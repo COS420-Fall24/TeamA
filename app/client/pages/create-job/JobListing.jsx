@@ -1,40 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import FirebaseService from '../../firebase/FirebaseService';
 import '../../styles/Auth.css';
 
 function JobListing() {
-    const [jobName, setJobName] = useState('');
+    const [listingName, setListingName] = useState('');
     const [description, setDescription] = useState('');
-    const [jobs, setJobs] = useState([]);
+    const [listingType, setListingType] = useState('job'); // Default to job
+    const [expertise, setExpertise] = useState(''); // For mentors only
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
 
-    const fetchJobs = async () => {
+    const saveListing = async () => {
         try {
-            const jobsArray = await FirebaseService.getJobListings();
-            setJobs(jobsArray);
-        } catch (error) {
-            setError(error.message);
-        }
-    };
-
-    const saveJob = async () => {
-        try {
-            if (!jobName.trim() || !description.trim()) {
-                setError('Both job name and description are required');
+            if (!listingName.trim() || !description.trim()) {
+                setError('Both name and description are required');
                 return;
             }
 
-            await FirebaseService.saveJobListing({
-                jobName,
-                description
-            });
+            if (listingType === 'mentor' && !expertise.trim()) {
+                setError('Expertise is required for mentor listings');
+                return;
+            }
 
-            setMessage(`Job "${jobName}" saved successfully.`);
+            const listingData = {
+                name: listingName,
+                description,
+                ...(listingType === 'mentor' && { expertise }),
+                createdAt: new Date().toISOString()
+            };
+
+            if (listingType === 'job') {
+                await FirebaseService.saveJobListing({
+                    jobName: listingName,
+                    description: description
+                });
+            } else {
+                await FirebaseService.saveMentorListing({
+                    mentorName: listingName,
+                    expertise: expertise,
+                    description: description
+                });
+            }
+
+            setMessage(`${listingType === 'job' ? 'Job' : 'Mentor'} "${listingName}" saved successfully.`);
             setError('');
-            setJobName('');
+            // Clear form
+            setListingName('');
             setDescription('');
-            fetchJobs();
+            setExpertise('');
         } catch (err) {
             setError(err.message);
         }
@@ -42,55 +55,77 @@ function JobListing() {
 
     return (
         <div className="auth-container">
-            <h2>Create Job Listing</h2>
+            <h2>Create New Listing</h2>
 
-            {/* Display messages */}
             {message && <p className="message" role="alert">{message}</p>}
             {error && <p className="error" role="alert">{error}</p>}
 
-            {/* Input fields for job name and description */}
+            <div className="listing-type-selector">
+                <label>Listing Type:</label>
+                <div className="radio-group">
+                    <label className="radio-label">
+                        <input
+                            type="radio"
+                            value="job"
+                            checked={listingType === 'job'}
+                            onChange={(e) => setListingType(e.target.value)}
+                        />
+                        Job Listing
+                    </label>
+                    <label className="radio-label">
+                        <input
+                            type="radio"
+                            value="mentor"
+                            checked={listingType === 'mentor'}
+                            onChange={(e) => setListingType(e.target.value)}
+                        />
+                        Mentor Listing
+                    </label>
+                </div>
+            </div>
+
             <div>
-                <label htmlFor="job-name">Job Name:</label>
+                <label htmlFor="listing-name">
+                    {listingType === 'job' ? 'Job Title:' : 'Mentor Name:'}
+                </label>
                 <input
-                    id="job-name"
+                    id="listing-name"
                     type="text"
-                    value={jobName}
-                    onChange={(e) => setJobName(e.target.value)}
-                    placeholder="Enter job name"
+                    value={listingName}
+                    onChange={(e) => setListingName(e.target.value)}
+                    placeholder={listingType === 'job' ? "Enter job title" : "Enter mentor name"}
                 />
             </div>
+
+            {listingType === 'mentor' && (
+                <div>
+                    <label htmlFor="expertise">Expertise:</label>
+                    <input
+                        id="expertise"
+                        type="text"
+                        value={expertise}
+                        onChange={(e) => setExpertise(e.target.value)}
+                        placeholder="Enter area of expertise"
+                    />
+                </div>
+            )}
+
             <div>
-                <label htmlFor="job-description">Job Description:</label>
+                <label htmlFor="description">Description:</label>
                 <textarea
-                    id="job-description"
+                    id="description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Enter job description"
+                    placeholder={listingType === 'job' ?
+                        "Enter job description" :
+                        "Describe your experience and what you can offer as a mentor"
+                    }
                 />
             </div>
 
-            <button type="button" onClick={saveJob}>
-                Save Job
+            <button type="button" onClick={saveListing}>
+                Save {listingType === 'job' ? 'Job' : 'Mentor'} Listing
             </button>
-
-            {/* Display saved jobs */}
-            <div className="jobs-list">
-                <h3>Saved Jobs:</h3>
-                {jobs.length > 0 ? (
-                    jobs.map((job) => (
-                        <div key={job.id} className="job-item">
-                            <h4>{job.jobName}</h4>
-                            <p>{job.description}</p>
-                            <small>
-                                Posted by: {job.userEmail}<br />
-                                Created: {new Date(job.createdAt).toLocaleDateString()}
-                            </small>
-                        </div>
-                    ))
-                ) : (
-                    <p>No jobs saved yet.</p>
-                )}
-            </div>
         </div>
     );
 }

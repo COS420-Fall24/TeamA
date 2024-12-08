@@ -103,11 +103,15 @@ function Listings() {
             return (a.name || a.jobTitle || '').localeCompare(b.name || b.jobTitle || '');
           case 'recent':
             return new Date(b.createdAt || 0) - new Date(a.createdAt || 0);
+          case 'favorites':
+            return favorites.has(b.id) - favorites.has(a.id);
+          case 'applied':
+            return appliedJobs.includes(b.id) - appliedJobs.includes(a.id);
           default:
             return 0;
         }
       });
-  }, [listings, sortBy]);
+  }, [listings, sortBy, favorites, appliedJobs]);
 
   return (
     <div className="listings-page">

@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import FirebaseService from '../../firebase/FirebaseService';
+import '../../styles/CreateListing.css';
 import '../../styles/Auth.css';
 
 function JobListing() {
     const [listingName, setListingName] = useState('');
     const [description, setDescription] = useState('');
-    const [listingType, setListingType] = useState('job'); // Default to job
-    const [expertise, setExpertise] = useState(''); // For mentors only
+    const [listingType, setListingType] = useState('job');
+    const [expertise, setExpertise] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
 
@@ -44,7 +45,6 @@ function JobListing() {
 
             setMessage(`${listingType === 'job' ? 'Job' : 'Mentor'} "${listingName}" saved successfully.`);
             setError('');
-            // Clear form
             setListingName('');
             setDescription('');
             setExpertise('');
@@ -54,14 +54,14 @@ function JobListing() {
     };
 
     return (
-        <div className="auth-container">
-            <h2>Create New Listing</h2>
+        <div className="create-listing-container">
+            <h2 className="create-listing-header">Create New Listing</h2>
 
-            {message && <p className="message" role="alert">{message}</p>}
-            {error && <p className="error" role="alert">{error}</p>}
+            {message && <p className="message success-message" role="alert">{message}</p>}
+            {error && <p className="message error-message" role="alert">{error}</p>}
 
             <div className="listing-type-selector">
-                <label>Listing Type:</label>
+                <label>What type of listing would you like to create?</label>
                 <div className="radio-group">
                     <label className="radio-label">
                         <input
@@ -84,7 +84,7 @@ function JobListing() {
                 </div>
             </div>
 
-            <div>
+            <div className="form-group">
                 <label htmlFor="listing-name">
                     {listingType === 'job' ? 'Job Title:' : 'Mentor Name:'}
                 </label>
@@ -98,7 +98,7 @@ function JobListing() {
             </div>
 
             {listingType === 'mentor' && (
-                <div>
+                <div className="form-group">
                     <label htmlFor="expertise">Expertise:</label>
                     <input
                         id="expertise"
@@ -110,7 +110,7 @@ function JobListing() {
                 </div>
             )}
 
-            <div>
+            <div className="form-group">
                 <label htmlFor="description">Description:</label>
                 <textarea
                     id="description"
@@ -123,7 +123,7 @@ function JobListing() {
                 />
             </div>
 
-            <button type="button" onClick={saveListing}>
+            <button className="save-button" type="button" onClick={saveListing}>
                 Save {listingType === 'job' ? 'Job' : 'Mentor'} Listing
             </button>
         </div>

@@ -1,24 +1,40 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import './Search.css';
 
-const SearchBar = ({ initialSearch = '', onSearch, allListings = [], sortBy, onSortChange }) => {
-  const [searchTerm, setSearchTerm] = useState(initialSearch);
+const SearchBar = ({ onSearch, allListings, sortBy, onSortChange }) => {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = useCallback(() => {
+    if (!searchTerm.trim()) {
+      onSearch(allListings);
+      return;
+    }
+
+    const searchTermLower = searchTerm.toLowerCase();
+    const matches = allListings.filter(listing => {
+      const name = (listing.name || '').toLowerCase();
+      const description = (listing.description || '').toLowerCase();
+      const expertise = (listing.expertise || '').toLowerCase();
+      
+      return name.includes(searchTermLower) || 
+             description.includes(searchTermLower) ||
+             expertise.includes(searchTermLower);
+    });
+
+    onSearch(matches);
+  }, [searchTerm, allListings, onSearch]);
+
+  // Add Enter key handler
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   useEffect(() => {
-    setSearchTerm(initialSearch);
-  }, [initialSearch]);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (!allListings.length) return;
-
-    const matches = allListings.filter(item => 
-      item.jobName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.description?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    onSearch(matches);
-  };
+    handleSearch();
+  }, [handleSearch]);
 
   return (
     <div className="search-bar">
@@ -27,6 +43,7 @@ const SearchBar = ({ initialSearch = '', onSearch, allListings = [], sortBy, onS
         placeholder="Search listings..."
         onChange={(e) => setSearchTerm(e.target.value)}
         className="search-input"
+        onKeyPress={handleKeyPress}
       />
       <select 
         value={sortBy} 
@@ -37,13 +54,12 @@ const SearchBar = ({ initialSearch = '', onSearch, allListings = [], sortBy, onS
         <option value="favorites">Favorites</option>
         <option value="applied">Applied</option>
       </select>
-      <button onClick={handleSubmit}>Search</button>
+      <button onClick={handleSearch}>Search</button>
     </div>
   );
 };
 
 SearchBar.propTypes = {
-  initialSearch: PropTypes.string,
   onSearch: PropTypes.func.isRequired,
   allListings: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string,

@@ -6,10 +6,35 @@
   
 }
 
+/*Styles the header section*/
+.App-header {
+  background-color: #073695;
+  min-height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  padding:  20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.centered-content h1 {
+  font-size: 3rem; /* Large font size for EmpowerMaine */
+  color: #079528; /* Matches the header color for a cohesive look */
+  margin: 0;
+}
+
 .centered-content p {
   font-size: 1.25rem; /* Smaller font for subtext */
   color: #555; /* Subdued text color */
   margin-top: 10px;
+}
+
+/*Styles EmpowerMaine at the top of homepage*/
+.App-header h1{
+  margin-bottom: 8px;
+  font-size: 2rem;
 }
 
 /*Styles the footer section of the app*/
@@ -22,7 +47,36 @@
   text-align: center;
 }
 
+/*Styles the links in the app*/
+.App-link {
+  text-decoration: underline;
+  color: #61dafb;
+}
 
+/*Styles the navigation*/
+nav{
+  display: flex;
+  justify-content: center;
+  gap: 20px;            /*This is the gap between Home and Register*/
+  
+}
 
+/*Styles navigation links*/
+.nav-link{
+  text-decoration: none;
+  color: #b0e0ff;
+  font-weight: bold;
+  font-size: 1rem;
+  margin-right: 20px;
+}
 
+/*Styles link while hovered over*/
+.nav-link:hover {
+  text-decoration: underline;
+  color: #b0e0ff;
+}
 
+/*Adds spce between lables*/
+label{
+  margin-bottom: 5px;
+}

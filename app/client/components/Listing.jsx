@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import '../styles/Listing.css';
 
 function Listing({ name, description, expertise, type }) {
     return (

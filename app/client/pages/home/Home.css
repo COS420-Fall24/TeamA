@@ -11,7 +11,7 @@
 .home-content h1 {
   text-align: center;
   margin-bottom: 2rem;
-  color: #333;
+  color: white;
 }
 
 /* Hero Section */
@@ -21,6 +21,7 @@
   background-color: #719E89;
   color: white;
   width: 100%;
+  
   
 }
 
@@ -95,7 +96,7 @@
 /* Resources Section */
 .resources-section {
   padding: 2rem;
-  background-color: #E8F4F0;
+  background-color: #E8F0EB;
   margin: 2rem auto 3rem;
   max-width: 1200px;
 }
@@ -107,7 +108,7 @@
 }
 
 .section-header h2 {
-  color: #333;
+  color: #2c4238;
   font-size: 1.8rem;
 }
 
@@ -138,7 +139,7 @@
 }
 
 .card-content h3 {
-  color: #333;
+  color: #2c4238;
   font-size: 1.4rem;
 }
 

@@ -10,7 +10,8 @@
 
 # production
 /build
-
+# Ignore node_modules in any directory
+**/node_modules/
 # misc
 .DS_Store
 .env.local

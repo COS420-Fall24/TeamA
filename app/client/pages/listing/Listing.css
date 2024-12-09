@@ -1,6 +1,7 @@
 .listings-page {
   min-height: 100vh;
   background-color: #E8F0EB;
+  text-align: left;
 }
 
 .sign-up-button {
@@ -14,7 +15,7 @@
 /* Hero Section Styles */
 .search-hero {
   background-color: #719E89;
-  padding: 2rem;
+  padding: 2.5rem 0rem;
   text-align: center;
   color: white;
 }
@@ -74,50 +75,12 @@
   font-size: 1rem;
 }
 
-.search-bar button:hover {
-  background: #4e6859;
-}
 
-/* Listings Section Styles */
+
 .listings-container {
   max-width: 1000px;
   margin: 2rem auto;
   padding: 0 1rem;
-}
-
-.listing-card {
-  background-color: white;
-  border-radius: 8px;
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-
-.listing-content {
-  display: flex;
-  gap: 1.5rem;
-  align-items: center;
-}
-
-.company-logo {
-  width: 64px;
-  height: 64px;
-  background-color: #f0f0f0;
-  border-radius: 4px;
-}
-
-.listing-details h3 {
-  margin: 0;
-  color: #333;
-  font-size: 1.2rem;
-}
-
-.listing-details p {
-  margin: 0.25rem 0;
-  color: #666;
 }
 
 .listing-actions {
@@ -176,6 +139,8 @@
 }
 
 .listing-wrapper .listing-title {
+  display: flex;
+  flex-direction: column;
   margin: 0;
   color: #333;
   font-size: 1.2rem;

@@ -14,11 +14,7 @@ Software that doesn't suck
 
 https://docs.google.com/document/d/1gQu_iFSQpnMHrKEQ7MM4JueKd3BD1DBhxUNtEbfEuJ0/edit?usp=sharing
 
-1.
-People struggle to keep track of their budgeting and financing. For example, many college students spend tons of money on unnecessary expenses such as DoorDash when they need to save money for rent and tuition causing them to be late on payments or go further into debt. Budgeting methods such as spreadsheets or other apps can be used to keep track of finances. However, spreadsheets are not organized and other budgeting apps are paid products. How do we design a budgeting app that is free and easy to use?
-
-2.
-Picking out outfits in the morning is time-consuming and stressful. For example, when running late class it is hard to find a good outfit for the weather and is stylish. This can cause you to be late to class and or frostbite. Current outfit planners exist and can save you time and effort in getting dressed. However, they are all subscription-based, don't account for weather, and potentially share your information. How do we create an outfit planner that's free to use and automatically accounts for the weather?
+Low income and neurodiverse students in Maine encounter barriers to getting a job in tech. These jobs in tech could help them get out of poverty, contribute to economic justice in their community, and help them build tech that serves their communities better. However, to succeed, they must have awareness and belief that tech is a feasible option, know the overall process and information for each step of that process to ultimately get a job, and get social support and networking with peers and mentors. Without family members or people in their network in tech, they don’t know what to search for and that tech could be an option for them. Even when they know it’s an option, getting internships and experience to get a tech job requires knowledge about resumes, online assessments, how to find internships, and how to learn programming. Even if they search for that and find that information, it is not customized to the unique needs and concerns of lower-income and neurodiverse people in Maine, who may doubt they can succeed in tech. By using the incorporation of generative ai we can help neurodiverse students with their interpersonal office communications. While also providing resources for mentors, job availability, interview prep, and free learning resources. 
 
 ## Agenda
 
